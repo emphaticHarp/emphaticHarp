@@ -1,3 +1,70 @@
+# Hi there, I'm Soumyajyoti Banik 👋
+
+💻 Full Stack Developer | IoT Enthusiast | Web Development | Problem Solver  
+🚀 Passionate about building innovative and user-friendly web applications and IoT solutions  
+🎯 Focused on creating efficient, scalable, and maintainable solutions  
+🔧 Experienced in both frontend, backend development, and IoT systems  
+📚 Continuous learner and tech enthusiast
+
+## 🛠️ Tech Stack
+
+• **Frontend:** HTML5, CSS3, JavaScript, Bootstrap, Swiper.js
+• **Backend:** PHP, MySQL
+• **IoT:** Arduino, Raspberry Pi, Sensors, Embedded Systems
+• **Tools:** Git, GitHub, VS Code
+• **Soft Skills:** Problem Solving, Team Collaboration, Project Management
+
+## 📈 GitHub Stats
+
+[![Soumyajyoti's GitHub stats](https://github-readme-stats.vercel.app/api?username=emphaticHarp&show_icons=true&theme=radical)](https://github.com/emphaticHarp)
+
+## 📫 Let's connect!
+
+* [LinkedIn](https://www.linkedin.com/in/soumyajyoti-banik-b9a345313/)
+* [Email](mailto:soumyajyotibanik07@gmail.com)
+* [GitHub](https://github.com/emphaticHarp)
+
+## 🏆 GitHub Trophies
+
+[![trophy](https://github-profile-trophy.vercel.app/?username=emphaticHarp&theme=radical)](https://github.com/emphaticHarp)
+
+## 🚀 Featured Projects
+
+### Elite Hub: Car Rental Website
+A comprehensive Car Rental Management System with fleet management, user authentication, and admin dashboard.
+
+**Key Features:**
+- Vehicle browsing and booking system
+- User authentication and OAuth integration
+- Admin dashboard with fleet management
+- Booking management system
+- Profile management
+
+**Tech Stack:**
+- Frontend: HTML5, CSS3, JavaScript, Bootstrap Icons, Swiper.js
+- Backend: PHP, MySQL
+
+[View Project](https://github.com/emphaticHarp/Elite-Hub)
+
+## 🌱 Currently Learning
+- Advanced JavaScript concepts
+- Modern web development frameworks
+- Database optimization techniques
+- System design principles
+- Advanced IoT applications
+
+## 💡 Interests
+- Web Development
+- Internet of Things (IoT)
+- Embedded Systems
+- Problem Solving
+- Open Source Contribution
+- Tech Innovation
+- Project Management
+
+## 📊 GitHub Activity
+[![GitHub Streak](https://streak-stats.demolab.com/?user=emphaticHarp&theme=radical)](https://git.io/streak-stats)
+
 # Elite Hub: Car Rental Website
 
 A comprehensive Car Rental Management System with fleet management, user authentication, and admin dashboard.
