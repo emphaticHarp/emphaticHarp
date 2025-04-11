@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Auto Luxury - Vehicle Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/vehicles.css">
+    <!-- Load Supabase JS library directly -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+    
+    <!-- Initialize Supabase directly in the head -->
+    <script>
+        // Supabase Configuration
+        const SUPABASE_URL = 'https://xsqdxhopiuyukbqeyfzj.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhzcWR4aG9waXV5dWticWV5ZnpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEyNjU3NzYsImV4cCI6MjA1Njg0MTc3Nn0.9R6l5jUMy41Z8OT7gKOmExpx37_j50lbbOJcWUaahOU';
+        
+        // Create Supabase client directly
+        window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        console.log('Supabase client initialized directly in head');
+    </script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="brand">
+                <i class="fas fa-car-side"></i>
+                <h1>Elite Auto Luxury</h1>
+            </div>
+            
+            <div class="nav-links">
+                <a href="dashboard.html" class="nav-item">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="vehicles.html" class="nav-item active">
+                    <i class="fas fa-car"></i>
+                    <span>Vehicles</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Bookings</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-users"></i>
+                    <span>Customers</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-rupee-sign"></i>
+                    <span>Revenue</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-star"></i>
+                    <span>Reviews</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="dashboard-header">
+            <div class="breadcrumb">
+                <a href="dashboard.html" style="color: var(--text-light); text-decoration: none;">Home</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Vehicles</span>
+            </div>
+            
+            <div class="profile-card">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <img src="https://ui-avatars.com/api/?name=Admin&background=C41E3A&color=fff" alt="Admin">
+                        <div class="status-indicator"></div>
+                    </div>
+                    <div class="user-details">
+                        <span class="user-name" id="userName">Loading...</span>
+                        <span class="user-role">Administrator</span>
+                    </div>
+                </div>
+                
+                <div class="profile-actions">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    
+                    <button class="logout-btn" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vehicles Header -->
+        <div class="vehicles-header">
+            <h2>Vehicle Management</h2>
+            <div class="header-actions">
+                <button class="debug-btn" onclick="testSupabaseConnection()" title="Test Supabase Connection">
+                    <i class="fas fa-bug"></i>
+                    Test Connection
+                </button>
+                <button class="debug-btn" onclick="showSupabaseInfo()" title="Show Supabase Info">
+                    <i class="fas fa-info-circle"></i>
+                    Show Info
+                </button>
+                <button class="add-vehicle-btn" onclick="openAddVehicleModal()">
+                    <i class="fas fa-plus"></i>
+                    Add New Vehicle
+                </button>
+            </div>
+        </div>
+
+        <!-- Vehicles Grid -->
+        <div class="vehicles-grid" id="vehiclesGrid">
+            <!-- Vehicle cards will be loaded here dynamically -->
+            <div class="loading-container" id="vehiclesLoading">
+                <dotlottie-player
+                    src="https://lottie.host/cb6bae1e-0e53-4f4a-8a20-a8c9bfb41c6d/ZkpqiRFhky.lottie"
+                    background="transparent"
+                    speed="1"
+                    style="width: 150px; height: 150px"
+                    loop
+                    autoplay>
+                </dotlottie-player>
+                <p>Loading vehicles...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Vehicle Modal -->
+    <div class="modal" id="vehicleModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Add New Vehicle</h3>
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="vehicleForm" enctype="multipart/form-data">
+                <input type="hidden" id="vehicleId" name="id">
+                <div class="form-grid">
+                    <!-- Basic Information -->
+                    <div class="form-section">
+                        <h4>Basic Information</h4>
+                        <div class="form-group">
+                            <label class="form-label">Vehicle Name</label>
+                            <input type="text" class="form-input" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Brand</label>
+                            <input type="text" class="form-input" name="brand" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Category</label>
+                            <select class="form-input" name="category" required>
+                                <option value="Supercars">Supercars</option>
+                                <option value="Hypercars">Hypercars</option>
+                                <option value="Luxury Cars">Luxury Cars</option>
+                                <option value="Sports Cars">Sports Cars</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Vehicle Type</label>
+                            <select class="form-input" name="type" required>
+                                <option value="SUV">SUV</option>
+                                <option value="Sedan">Sedan</option>
+                                <option value="Sports">Sports Car</option>
+                                <option value="Luxury">Luxury Car</option>
+                                <option value="Hypercar">Hypercar</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Performance Specs -->
+                    <div class="form-section">
+                        <h4>Performance Specifications</h4>
+                        <div class="form-group">
+                            <label class="form-label">Horsepower</label>
+                            <input type="number" class="form-input" name="horsepower" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Speed</label>
+                            <input type="text" class="form-input" name="speed" placeholder="e.g., 320 km/h" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Fuel Type</label>
+                            <select class="form-input" name="fuel" required>
+                                <option value="Petrol">Petrol</option>
+                                <option value="Diesel">Diesel</option>
+                                <option value="Electric">Electric</option>
+                                <option value="Hybrid">Hybrid</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Acceleration (0-100 km/h)</label>
+                            <input type="text" class="form-input" name="acceleration" placeholder="e.g., 2.8s" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Top Speed</label>
+                            <input type="text" class="form-input" name="top_speed" placeholder="e.g., 350 km/h" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Engine Type</label>
+                            <input type="text" class="form-input" name="engine_type" placeholder="e.g., V12 Twin-Turbo" required>
+                        </div>
+                    </div>
+
+                    <!-- Rental Details -->
+                    <div class="form-section">
+                        <h4>Rental Information</h4>
+                        <div class="form-group">
+                            <label class="form-label">Price per Day</label>
+                            <input type="text" class="form-input" name="price" placeholder="e.g., 150000" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Status</label>
+                            <select class="form-input" name="status" required>
+                                <option value="available">Available</option>
+                                <option value="rented">Rented</option>
+                                <option value="maintenance">Under Maintenance</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Additional Options</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="has_chauffeur">
+                                    Chauffeur Available
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="has_insurance">
+                                    Insurance Included
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Special Labels -->
+                    <div class="form-section">
+                        <h4>Special Labels</h4>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="is_most_popular">
+                                Most Popular
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="is_new_arrival">
+                                New Arrival
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="is_ultra_exclusive">
+                                Ultra Exclusive
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Features -->
+                    <div class="form-section full-width">
+                        <h4>Features</h4>
+                        <div class="features-container">
+                            <div class="features-input">
+                                <input type="text" id="featureInput" class="form-input" placeholder="Add a feature">
+                                <button type="button" onclick="addFeature()" class="add-feature-btn">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <div id="featuresList" class="features-list">
+                                <!-- Features will be added here dynamically -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="form-section full-width">
+                        <h4>Vehicle Description</h4>
+                        <textarea class="form-input" name="description" rows="4" required></textarea>
+                    </div>
+
+                    <!-- Images -->
+                    <div class="form-section full-width">
+                        <h4>Vehicle Images</h4>
+                        <div class="image-upload-container">
+                            <div class="upload-preview">
+                                <img id="imagePreview" src="https://via.placeholder.com/300x200?text=Main+Image" alt="Preview">
+                                <div class="loading-overlay" style="display: none;">
+                                    <dotlottie-player
+                                        src="https://lottie.host/cb6bae1e-0e53-4f4a-8a20-a8c9bfb41c6d/ZkpqiRFhky.lottie"
+                                        background="transparent"
+                                        speed="1"
+                                        loop
+                                        autoplay>
+                                    </dotlottie-player>
+                                    <div id="generationStatus"></div>
+                                </div>
+                            </div>
+                            <div class="additional-images" id="additionalImages">
+                                <!-- Additional image previews will be added here -->
+                            </div>
+                            <div class="upload-options">
+                                <div class="upload-option">
+                                    <label class="upload-label">
+                                        <input type="file" id="imageUpload" name="image" accept="image/*" class="hidden-input">
+                                        <span class="upload-btn">
+                                            <i class="fas fa-upload"></i>
+                                            Upload Main Image
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="upload-option">
+                                    <label class="upload-label">
+                                        <input type="file" id="additionalImageUpload" multiple accept="image/*" class="hidden-input">
+                                        <span class="upload-btn">
+                                            <i class="fas fa-images"></i>
+                                            Add More Images
+                                        </span>
+                                    </label>
+                                </div>
+                                <div class="upload-option">
+                                    <button type="button" class="ai-generate-btn" id="toggleAIBtn" onclick="toggleAIPrompt()">
+                                        <i class="fas fa-magic"></i>
+                                        AI Generate
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- AI Prompt Container -->
+                            <div id="aiPromptContainer" class="ai-prompt-container" style="display: none;">
+                                <div class="ai-suggestions">
+                                    <span class="suggestion-chip" onclick="usePromptSuggestion(this)">in luxury showroom</span>
+                                    <span class="suggestion-chip" onclick="usePromptSuggestion(this)">on scenic mountain road</span>
+                                    <span class="suggestion-chip" onclick="usePromptSuggestion(this)">in modern city setting</span>
+                                    <span class="suggestion-chip" onclick="usePromptSuggestion(this)">at sunset on beach</span>
+                                    <span class="suggestion-chip" onclick="usePromptSuggestion(this)">in professional studio</span>
+                                </div>
+                                <div class="ai-prompt-wrapper">
+                                    <textarea id="aiPrompt" placeholder="Describe the image you want to generate..." class="form-input"></textarea>
+                                    <button type="button" class="generate-btn" onclick="generateFromPrompt()">
+                                        <i class="fas fa-wand-magic-sparkles"></i>
+                                        Generate
+                                    </button>
+                                </div>
+                                <div class="prompt-tips">
+                                    <p>
+                                        <i class="fas fa-lightbulb"></i>
+                                        Tip: Include details about setting, lighting, and angle for better results
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="modal-btn cancel-btn" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="modal-btn save-btn">Save Vehicle</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Load scripts in the correct order -->
+    <script src="js/dashboard.js"></script>
+    <script>
+        // Helper functions for Supabase
+        window.supabaseHelpers = {
+            // Upload a file to Supabase storage
+            uploadImageToSupabase: async function(file, path) {
+                try {
+                    if (!file) {
+                        throw new Error('No file provided for upload');
+                    }
+                    
+                    // Generate a unique file name
+                    const fileExt = file.name.split('.').pop();
+                    const fileName = `${Date.now()}.${fileExt}`;
+                    const filePath = `${path}/${fileName}`;
+                    
+                    console.log(`Uploading file to ${filePath}...`);
+                    console.log(`File details: name=${file.name}, type=${file.type}, size=${file.size} bytes`);
+                    
+                    // Upload the file
+                    const { data, error } = await window.supabase.storage
+                        .from('vehicles')
+                        .upload(filePath, file, {
+                            cacheControl: '3600',
+                            upsert: true
+                        });
+                    
+                    if (error) {
+                        console.error('Error uploading file:', error);
+                        throw error;
+                    }
+                    
+                    console.log('File uploaded successfully, getting public URL...');
+                    
+                    // Get the public URL
+                    const { data: { publicUrl } } = window.supabase.storage
+                        .from('vehicles')
+                        .getPublicUrl(filePath);
+                    
+                    console.log('File public URL:', publicUrl);
+                    return publicUrl;
+                } catch (error) {
+                    console.error('Error in uploadImageToSupabase:', error);
+                    throw error;
+                }
+            },
+            
+            // Upload a base64 image to Supabase storage
+            uploadBase64ImageToSupabase: async function(base64String, path) {
+                try {
+                    if (!base64String) {
+                        throw new Error('No base64 string provided for upload');
+                    }
+                    
+                    console.log('Converting base64 to blob...');
+                    
+                    // Convert base64 to blob
+                    const fetchResponse = await fetch(base64String);
+                    const blob = await fetchResponse.blob();
+                    
+                    console.log(`Blob created: type=${blob.type}, size=${blob.size} bytes`);
+                    
+                    // Create a file from the blob
+                    const file = new File([blob], `image_${Date.now()}.png`, { type: 'image/png' });
+                    
+                    console.log(`File created from blob: name=${file.name}, type=${file.type}, size=${file.size} bytes`);
+                    
+                    // Upload the file
+                    return this.uploadImageToSupabase(file, path);
+                } catch (error) {
+                    console.error('Error in uploadBase64ImageToSupabase:', error);
+                    throw error;
+                }
+            },
+            
+            // Save vehicle data to Supabase
+            saveVehicleToSupabase: async function(vehicleData) {
+                try {
+                    if (!vehicleData) {
+                        throw new Error('No vehicle data provided');
+                    }
+                    
+                    console.log('Saving vehicle data:', vehicleData);
+                    
+                    const { data, error } = await window.supabase
+                        .from('vehicles')
+                        .insert([vehicleData])
+                        .select();
+                    
+                    if (error) {
+                        console.error('Error saving vehicle:', error);
+                        throw error;
+                    }
+                    
+                    console.log('Vehicle saved successfully:', data[0]);
+                    return data[0];
+                } catch (error) {
+                    console.error('Error in saveVehicleToSupabase:', error);
+                    throw error;
+                }
+            },
+            
+            // Get all vehicles from Supabase
+            getVehiclesFromSupabase: async function() {
+                try {
+                    console.log('Fetching vehicles...');
+                    
+                    const { data, error } = await window.supabase
+                        .from('vehicles')
+                        .select('*')
+                        .order('created_at', { ascending: false });
+                    
+                    if (error) {
+                        console.error('Error fetching vehicles:', error);
+                        throw error;
+                    }
+                    
+                    console.log(`Fetched ${data.length} vehicles`);
+                    return data;
+                } catch (error) {
+                    console.error('Error in getVehiclesFromSupabase:', error);
+                    throw error;
+                }
+            },
+            
+            // Get a single vehicle from Supabase
+            getVehicleFromSupabase: async function(id) {
+                try {
+                    if (!id) {
+                        throw new Error('No vehicle ID provided');
+                    }
+                    
+                    console.log(`Fetching vehicle with ID: ${id}`);
+                    
+                    const { data, error } = await window.supabase
+                        .from('vehicles')
+                        .select('*')
+                        .eq('id', id)
+                        .single();
+                    
+                    if (error) {
+                        console.error('Error fetching vehicle:', error);
+                        throw error;
+                    }
+                    
+                    console.log('Vehicle fetched successfully:', data);
+                    return data;
+                } catch (error) {
+                    console.error('Error in getVehicleFromSupabase:', error);
+                    throw error;
+                }
+            },
+            
+            // Update a vehicle in Supabase
+            updateVehicleInSupabase: async function(id, vehicleData) {
+                try {
+                    if (!id) {
+                        throw new Error('No vehicle ID provided');
+                    }
+                    
+                    if (!vehicleData) {
+                        throw new Error('No vehicle data provided');
+                    }
+                    
+                    console.log(`Updating vehicle with ID: ${id}`, vehicleData);
+                    
+                    const { data, error } = await window.supabase
+                        .from('vehicles')
+                        .update(vehicleData)
+                        .eq('id', id)
+                        .select();
+                    
+                    if (error) {
+                        console.error('Error updating vehicle:', error);
+                        throw error;
+                    }
+                    
+                    console.log('Vehicle updated successfully:', data[0]);
+                    return data[0];
+                } catch (error) {
+                    console.error('Error in updateVehicleInSupabase:', error);
+                    throw error;
+                }
+            },
+            
+            // Delete a vehicle from Supabase
+            deleteVehicleFromSupabase: async function(id) {
+                try {
+                    if (!id) {
+                        throw new Error('No vehicle ID provided');
+                    }
+                    
+                    console.log(`Deleting vehicle with ID: ${id}`);
+                    
+                    const { error } = await window.supabase
+                        .from('vehicles')
+                        .delete()
+                        .eq('id', id);
+                    
+                    if (error) {
+                        console.error('Error deleting vehicle:', error);
+                        throw error;
+                    }
+                    
+                    console.log('Vehicle deleted successfully');
+                    return true;
+                } catch (error) {
+                    console.error('Error in deleteVehicleFromSupabase:', error);
+                    throw error;
+                }
+            }
+        };
+        
+        // Test Supabase connection
+        async function testSupabaseConnection() {
+            try {
+                console.log('Testing Supabase connection...');
+                
+                if (!window.supabase) {
+                    console.error('Supabase client not initialized');
+                    throw new Error('Supabase client not initialized. Please refresh the page and try again.');
+                }
+                
+                // Test storage
+                console.log('Testing storage...');
+                
+                // Try to directly access the vehicles bucket instead of listing all buckets
+                try {
+                    console.log('Testing vehicles bucket access...');
+                    const { data: files, error: listError } = await window.supabase
+                        .storage
+                        .from('vehicles')
+                        .list();
+                        
+                    if (listError) {
+                        console.error('Bucket access error:', listError);
+                        
+                        // If access denied, might be a policy issue
+                        if (listError.message.includes('Access denied')) {
+                            alert(`Cannot access the vehicles bucket due to permissions.\n\nPlease check your storage policies in Supabase dashboard:\n1. Go to Storage > Policies\n2. Add a policy for the vehicles bucket:\n   - Name: "Allow public access"\n   - Definition: bucket_id = 'vehicles'\n   - Check all operations (SELECT, INSERT, UPDATE, DELETE)`);
+                            return;
+                        }
+                        
+                        throw new Error(`Cannot access vehicles bucket: ${listError.message}`);
+                    }
+                    
+                    console.log('Successfully accessed vehicles bucket. Files:', files);
+                    
+                } catch (bucketError) {
+                    console.error('Bucket access error:', bucketError);
+                    
+                    // Check if the error indicates the bucket doesn't exist
+                    if (bucketError.message.includes('not found') || bucketError.message.includes('does not exist')) {
+                        alert(`The "vehicles" bucket appears to be inaccessible. Please verify in Supabase dashboard:\n\n1. Go to Storage section\n2. Check if "vehicles" bucket exists\n3. If it doesn't exist, create it:\n   - Click "Create new bucket"\n   - Name: vehicles\n   - Check "Public bucket"\n4. If it exists, check the policies:\n   - Click on the bucket\n   - Go to "Policies" tab\n   - Add policy with: bucket_id = 'vehicles'`);
+                        return;
+                    }
+                    
+                    throw new Error(`Cannot access vehicles bucket. Please check storage policies: ${bucketError.message}`);
+                }
+                
+                // Test database
+                console.log('Testing database...');
+                try {
+                    // First check if the vehicles table exists
+                    const { error: tableError } = await window.supabase
+                        .from('vehicles')
+                        .select('id')
+                        .limit(1);
+                    
+                    if (tableError) {
+                        console.error('Database error details:', tableError);
+                        if (tableError.code === '42P01') {
+                            const createTable = confirm('The "vehicles" table does not exist. Would you like to create it now?');
+                            if (createTable) {
+                                await createVehiclesTable();
+                                alert('Vehicles table created successfully! Please test the connection again.');
+                                return;
+                            } else {
+                                throw new Error('The "vehicles" table does not exist. Please create it in the Supabase dashboard.');
+                            }
+                        } else {
+                            throw new Error(`Database error: ${tableError.message} (Code: ${tableError.code})`);
+                        }
+                    }
+                    
+                    // If we get here, everything is working
+                    console.log('All connection tests passed successfully');
+                    alert(`Supabase connection successful!\n\n✓ Storage bucket "vehicles" is accessible\n✓ Database table "vehicles" is accessible`);
+                    
+                } catch (dbError) {
+                    console.error('Database test error:', dbError);
+                    throw dbError;
+                }
+            } catch (error) {
+                console.error('Supabase connection test failed:', error);
+                alert(`Supabase connection test failed: ${error.message}\n\nPlease check the console for more details.`);
+            }
+        }
+        
+        // Create vehicles table in Supabase
+        async function createVehiclesTable() {
+            try {
+                console.log('Creating vehicles table...');
+                
+                const createTableSQL = `
+CREATE TABLE vehicles (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    name TEXT NOT NULL,
+    price TEXT NOT NULL,
+    type TEXT NOT NULL,
+    status TEXT NOT NULL,
+    speed TEXT NOT NULL,
+    fuel TEXT NOT NULL,
+    image_url TEXT NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    
+    -- Additional fields for detailed car information
+    category TEXT NOT NULL,
+    brand TEXT NOT NULL,
+    horsepower INTEGER NOT NULL,
+    acceleration TEXT NOT NULL,
+    top_speed TEXT NOT NULL,
+    engine_type TEXT NOT NULL,
+    reviews_count INTEGER DEFAULT 0,
+    rating DECIMAL(3,2) DEFAULT 0.00,
+    
+    -- Detailed specifications
+    engine_details TEXT,
+    transmission TEXT,
+    drivetrain TEXT,
+    
+    -- Features (stored as JSONB array)
+    features JSONB DEFAULT '[]',
+    
+    -- Overview/Description
+    description TEXT,
+    
+    -- Additional images (stored as JSONB array)
+    additional_images JSONB DEFAULT '[]',
+    
+    -- Flags for special labels
+    is_most_popular BOOLEAN DEFAULT false,
+    is_new_arrival BOOLEAN DEFAULT false,
+    is_ultra_exclusive BOOLEAN DEFAULT false,
+    
+    -- Additional rental options
+    has_chauffeur BOOLEAN DEFAULT false,
+    has_insurance BOOLEAN DEFAULT false,
+    
+    -- SEO and display
+    slug TEXT UNIQUE,
+    display_order INTEGER DEFAULT 0
+);
+
+-- Create an index on category for faster filtering
+CREATE INDEX idx_vehicles_category ON vehicles(category);
+
+-- Create an index on brand for faster filtering
+CREATE INDEX idx_vehicles_brand ON vehicles(brand);
+
+-- Create an index on price for range queries
+CREATE INDEX idx_vehicles_price ON vehicles((price::numeric));
+                `;
+                
+                alert(`Please run this SQL in the Supabase SQL Editor to create the vehicles table with all required fields:\n\n${createTableSQL}`);
+                
+                // Copy SQL to clipboard
+                navigator.clipboard.writeText(createTableSQL)
+                    .then(() => console.log('SQL copied to clipboard'))
+                    .catch(err => console.error('Failed to copy SQL:', err));
+                
+                return true;
+            } catch (error) {
+                console.error('Error in createVehiclesTable:', error);
+                throw error;
+            }
+        }
+
+        // Show Supabase configuration information
+        function showSupabaseInfo() {
+            try {
+                console.log('Showing Supabase info...');
+                
+                // Check if Supabase client exists
+                if (!window.supabase) {
+                    alert('Supabase client is not initialized!');
+                    return;
+                }
+                
+                // Get Supabase URL and masked key
+                const url = SUPABASE_URL;
+                const maskedKey = SUPABASE_KEY.substring(0, 10) + '...' + SUPABASE_KEY.substring(SUPABASE_KEY.length - 5);
+                
+                // Create info message
+                const infoMessage = `
+Supabase Configuration:
+-----------------------
+URL: ${url}
+Key: ${maskedKey}
+Client Initialized: ${window.supabase ? 'Yes' : 'No'}
+
+Debug Steps:
+-----------
+1. Check if the URL and key are correct
+2. Verify that the "vehicles" table exists in your database
+3. Ensure the "vehicles" storage bucket exists
+4. Check that you have proper RLS policies set up
+
+Common Errors:
+-------------
+- 42P01: Relation does not exist (table not created)
+- 403: Permission denied (missing RLS policy)
+- 404: Bucket not found (storage bucket not created)
+
+For more help, check the browser console (F12) for detailed error messages.
+                `;
+                
+                alert(infoMessage);
+                
+                // Log more detailed info to console
+                console.log('Supabase URL:', url);
+                console.log('Supabase Key (masked):', maskedKey);
+                console.log('Supabase Client:', window.supabase);
+                console.log('Supabase Auth:', window.supabase.auth);
+                console.log('Supabase Storage:', window.supabase.storage);
+                
+            } catch (error) {
+                console.error('Error showing Supabase info:', error);
+                alert(`Error showing Supabase info: ${error.message}`);
+            }
+        }
+    </script>
+    <script src="js/vehicles.js"></script>
+</body>
+</html> 

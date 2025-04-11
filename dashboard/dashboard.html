@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Auto Luxury</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-top">
+            <div class="nav-content">
+                <div class="logo">
+                    <h1 class="logo-text">ELITE AUTO</h1>
+                    <p class="logo-tagline">Luxury Car Rentals</p>
+                </div>
+                
+                <div class="top-actions">
+                    <div class="search-container">
+                        <input type="text" class="search-input" placeholder="Search for vehicles, services...">
+                        <button class="search-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                    
+                    <div class="nav-actions">
+                        <div class="language-selector">
+                            <span class="current-lang"><i class="fas fa-globe"></i> <span>EN</span></span>
+                            <div class="language-dropdown">
+                                <a href="#" class="lang-option active">English</a>
+                                <a href="#" class="lang-option">हिन्दी</a>
+                                <a href="#" class="lang-option">日本語</a>
+                                <a href="#" class="lang-option">Español</a>
+                                <a href="#" class="lang-option">Français</a>
+                                <a href="#" class="lang-option">Deutsch</a>
+                            </div>
+                        </div>
+
+                        <div class="notification-bell">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-badge">3</span>
+                            <div class="notification-dropdown">
+                                <div class="notification-header">
+                                    <h3>Notifications</h3>
+                                    <a href="#">Mark all as read</a>
+                                </div>
+                                <div class="notification-item unread">
+                                    <div class="notification-icon"><i class="fas fa-calendar-check"></i></div>
+                                    <div class="notification-content">
+                                        <p>Your reservation for Lamborghini Aventador is confirmed</p>
+                                        <span class="notification-time">2 hours ago</span>
+                                    </div>
+                                </div>
+                                <div class="notification-item unread">
+                                    <div class="notification-icon"><i class="fas fa-tag"></i></div>
+                                    <div class="notification-content">
+                                        <p>Special 15% discount available on your next booking</p>
+                                        <span class="notification-time">Yesterday</span>
+                                    </div>
+                                </div>
+                                <div class="notification-item unread">
+                                    <div class="notification-icon"><i class="fas fa-car"></i></div>
+                                    <div class="notification-content">
+                                        <p>New Ferrari SF90 Stradale added to our collection</p>
+                                        <span class="notification-time">3 days ago</span>
+                                    </div>
+                                </div>
+                                <a href="#" class="view-all-notifications">View All Notifications</a>
+                            </div>
+                        </div>
+
+                        <div class="profile-menu" id="profileMenu">
+                            <img src="https://ui-avatars.com/api/?background=C41E3A&color=fff" alt="Profile" class="profile-image" id="profileImage">
+                            <span id="profileName" style="font-weight: 500;">Loading...</span>
+                            <i class="fas fa-chevron-down"></i>
+
+                            <div class="dropdown-menu" id="dropdownMenu">
+                                <a href="#" class="dropdown-item">
+                                    <i class="fas fa-user"></i>
+                                    <span>Profile</span>
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    <i class="fas fa-history"></i>
+                                    <span>Rental History</span>
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    <i class="fas fa-crown"></i>
+                                    <span>VIP Status</span>
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    <i class="fas fa-cog"></i>
+                                    <span>Settings</span>
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span>Help & Support</span>
+                                </a>
+                                <a href="#" class="dropdown-item logout-btn" id="logoutBtn">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <span>Sign Out</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="navbar-bottom">
+            <div class="nav-content">
+                <ul class="nav-menu">
+                    <li><a href="#" class="nav-link active"><i class="fas fa-chart-line"></i> Overview</a></li>
+                    <li><a href="fleet.html" class="nav-link"><i class="fas fa-car-side"></i> Fleet</a></li>
+                   
+                    <li><a href="#" class="nav-link"><i class="fas fa-calendar-check"></i> Reservations</a></li>
+                    <li><a href="#" class="nav-link"><i class="fas fa-concierge-bell"></i> Concierge</a></li>
+                    <li><a href="#" class="nav-link"><i class="fas fa-map-marked-alt"></i> Experiences</a></li>
+                    <li><a href="#" class="nav-link"><i class="fas fa-tools"></i> Customization</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero-banner">
+        <div class="banner-slider">
+            <div class="slider-track">
+                <div class="slide active">
+                    <img src="../images/car1.jpg" alt="Luxury Car Collection">
+                    <div class="slide-content">
+                        <div class="slide-badge">Welcome to Elite Auto</div>
+                        <h3>Luxury Without Limits</h3>
+                        <p>Experience the world's finest automobiles with our exclusive luxury car rental service.</p>
+                        <div class="car-specs">
+                            <span><i class="fas fa-car"></i> Premium Fleet</span>
+                            <span><i class="fas fa-clock"></i> 24/7 Service</span>
+                            <span><i class="fas fa-star"></i> VIP Experience</span>
+                        </div>
+                        <button class="book-btn">Explore Fleet</button>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="../images/car2.jpg" alt="Premium Services">
+                    <div class="slide-content">
+                        <div class="slide-badge">Premium Services</div>
+                        <h3>Beyond Ordinary Rentals</h3>
+                        <p>Personalized concierge service, exclusive events, and bespoke experiences await you.</p>
+                        <div class="car-specs">
+                            <span><i class="fas fa-concierge-bell"></i> Concierge</span>
+                            <span><i class="fas fa-calendar"></i> Events</span>
+                            <span><i class="fas fa-gift"></i> Rewards</span>
+                        </div>
+                        <button class="book-btn">Learn More</button>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="../images/car3.jpg" alt="Membership Benefits">
+                    <div class="slide-content">
+                        <div class="slide-badge">Elite Membership</div>
+                        <h3>Join The Elite Club</h3>
+                        <p>Unlock exclusive benefits, priority access, and luxury lifestyle privileges with our membership program.</p>
+                        <div class="car-specs">
+                            <span><i class="fas fa-crown"></i> VIP Status</span>
+                            <span><i class="fas fa-percent"></i> Special Rates</span>
+                            <span><i class="fas fa-key"></i> Priority Access</span>
+                        </div>
+                        <button class="book-btn">Join Now</button>
+                    </div>
+                </div>
+            </div>
+            <button class="slider-btn prev">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="slider-btn next">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            
+        </div>
+    </div>
+
+    <main class="main-content">
+        <div class="welcome-section">
+            <h1 class="welcome-text">Welcome back, <span id="welcomeName">User</span></h1>
+            <p class="welcome-subtitle">Your luxury experience awaits</p>
+        </div>
+
+        <div class="quick-actions">
+            <div class="action-card">
+                <div class="action-icon">
+                    <i class="fas fa-calendar-plus"></i>
+                </div>
+                <h3>New Reservation</h3>
+                <p>Book your next luxury experience</p>
+                <a href="#" class="action-link">Start Now <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="action-card">
+                <div class="action-icon">
+                    <i class="fas fa-history"></i>
+                </div>
+                <h3>Rental History</h3>
+                <p>View your previous experiences</p>
+                <a href="#" class="action-link">View History <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="action-card">
+                <div class="action-icon">
+                    <i class="fas fa-gift"></i>
+                </div>
+                <h3>Exclusive Offers</h3>
+                <p>Special deals just for you</p>
+                <a href="#" class="action-link">See Offers <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+
+        <div class="car-catalog-section">
+            <div class="catalog-header">
+                <h2>Explore Our Fleet</h2>
+                <p>Discover our extensive collection of premium vehicles</p>
+            </div>
+            
+            <div class="car-grid">
+                <div class="car-carousel" id="carCarousel">
+                    <!-- Supercars -->
+                    <div class="car-card" data-category="supercar">
+                        <div class="car-image">
+                            <img src="../images/ghini.jpg" alt="Lamborghini Aventador">
+                        </div>
+                    </div>
+                    
+                    <div class="car-card" data-category="supercar">
+                        <div class="car-image">
+                            <img src="../images/ferrari1.jpg" alt="Ferrari F8 Tributo">
+                        </div>
+                    </div>
+                    
+                    <!-- Hypercars -->
+                    <div class="car-card" data-category="hypercar">
+                        <div class="car-image">
+                            <img src="../images/buggati.jpg" alt="Bugatti Chiron">
+                        </div>
+                    </div>
+                    
+                    <div class="car-card" data-category="hypercar">
+                        <div class="car-image">
+                            <img src="../images/jesko.jpg" alt="Koenigsegg Jesko">
+                        </div>
+                    </div>
+                    
+                    <!-- Luxury Cars -->
+                    <div class="car-card" data-category="luxury">
+                        <div class="car-image">
+                            <img src="https://mediapool.bmwgroup.com/cache/P9/202404/P90547815/P90547815-phantom-extended-magnestism-600px.jpg" alt="Rolls-Royce Phantom">
+                        </div>
+                    </div>
+                    
+                    <div class="car-card" data-category="luxury">
+                        <div class="car-image">
+                            <img src="../images/bentley.jpg" alt="Bentley Continental GT">
+                        </div>
+                    </div>
+                    
+                    <!-- Sports Cars -->
+                    <div class="car-card" data-category="sports">
+                        <div class="car-image">
+                            <img src="../images/porsche.jpg" alt="Porsche 911 GT3">
+                        </div>
+                    </div>
+                    
+                    <div class="car-card" data-category="sports">
+                        <div class="car-image">
+                            <img src="../images/audi.jpg" alt="Audi R8">
+                        </div>
+                    </div>
+                    
+                    <!-- Rally Cars -->
+                    <div class="car-card" data-category="rally">
+                        <div class="car-image">
+                            <img src="../images/subaru.jpg" alt="Subaru WRX STI">
+                        </div>
+                    </div>
+                    
+                    <div class="car-card" data-category="rally">
+                        <div class="car-image">
+                            <img src="../images/mitsu.jpg" alt="Mitsubishi Lancer Evolution">
+                        </div>
+                    </div>
+                    
+                    <!-- Off-Road Vehicles -->
+                    <div class="car-card" data-category="offroad">
+                        <div class="car-image">
+                            <img src="../images/jeep.jpg" alt="Jeep Wrangler Rubicon">
+                        </div>
+                    </div>
+                    
+                    <div class="car-card" data-category="offroad">
+                        <div class="car-image">
+                            <img src="../images/ford.jpg" alt="Ford F-150 Raptor">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- TOUR PACKAGES SECTION -->
+    <section class="tour-packages">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Exclusive Tour Packages</h2>
+                <p>Experience luxury beyond the drive with our curated tour packages</p>
+            </div>
+            
+            <div class="tour-grid">
+                <div class="tour-card">
+                    <div class="tour-image">
+                        <img src="https://images.squarespace-cdn.com/content/v1/59f36da6ace864567b28a257/668bd193-eaa4-4924-96ef-3ad9a0b87fe8/DSC01257-2.jpg" alt="Coastal Drive Experience">
+                        <div class="tour-badge">Most Popular</div>
+                    </div>
+                    <div class="tour-content">
+                        <h3>Coastal Drive Experience</h3>
+                        <p>Experience the thrill of driving a Ferrari along the stunning coastal roads with breathtaking ocean views.</p>
+                        <div class="tour-details">
+                            <span><i class="fas fa-clock"></i> 3 Days</span>
+                            <span><i class="fas fa-map-marker-alt"></i> Amalfi Coast</span>
+                            <span><i class="fas fa-road"></i> 300 miles</span>
+                        </div>
+                        <div class="tour-price">
+                            <span class="price">₹4,49,925</span>
+                            <button class="book-btn">Book Now</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tour-card">
+                    <div class="tour-image">
+                        <img src="https://www.theluxevoyager.com/wp-content/uploads/2019/12/Colcorsa-Supercar-Driving-Tours-in-Europe-2.jpg" alt="Mountain Escape">
+                        <div class="tour-badge">New</div>
+                    </div>
+                    <div class="tour-content">
+                        <h3>Alpine Mountain Escape</h3>
+                        <p>Conquer winding mountain roads in a Lamborghini with stops at luxury chalets and gourmet dining experiences.</p>
+                        <div class="tour-details">
+                            <span><i class="fas fa-clock"></i> 5 Days</span>
+                            <span><i class="fas fa-map-marker-alt"></i> Swiss Alps</span>
+                            <span><i class="fas fa-road"></i> 450 miles</span>
+                        </div>
+                        <div class="tour-price">
+                            <span class="price">₹6,37,425</span>
+                            <button class="book-btn">Book Now</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tour-card">
+                    <div class="tour-image">
+                        <img src="https://elitetraveler.com/wp-content/uploads/sites/8/2020/07/AM-UAE-VANTAGE-%E2%94%AC%E2%8C%90DEAN-SMITH-017-768x512-1.jpg" alt="Desert Adventure">
+                    </div>
+                    <div class="tour-content">
+                        <h3>Desert Supercar Adventure</h3>
+                        <p>Experience the thrill of high-speed driving across vast desert landscapes with luxury desert resort stays.</p>
+                        <div class="tour-details">
+                            <span><i class="fas fa-clock"></i> 4 Days</span>
+                            <span><i class="fas fa-map-marker-alt"></i> Dubai</span>
+                            <span><i class="fas fa-road"></i> 400 miles</span>
+                        </div>
+                        <div class="tour-price">
+                            <span class="price">₹5,47,425</span>
+                            <button class="book-btn">Book Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="view-all-container">
+                <a href="#" class="view-all-btn">View All Tour Packages <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- DISCOUNT PLANS SECTION -->
+    <section class="discount-plans">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Exclusive Discount Plans</h2>
+                <p>Unlock premium savings with our membership and loyalty programs</p>
+            </div>
+            
+            <div class="discount-grid">
+                <div class="discount-card">
+                    <div class="discount-badge">Save 15%</div>
+                    <div class="discount-icon">
+                        <i class="fas fa-calendar-week"></i>
+                    </div>
+                    <h3>Weekly Rental Discount</h3>
+                    <p>Enjoy 15% off when you rent any luxury vehicle for a full week or longer.</p>
+                    <ul class="discount-features">
+                        <li><i class="fas fa-check"></i> Valid on all vehicle categories</li>
+                        <li><i class="fas fa-check"></i> Free upgrade when available</li>
+                        <li><i class="fas fa-check"></i> Complimentary airport pickup</li>
+                    </ul>
+                    <a href="#" class="discount-btn">Get This Offer</a>
+                </div>
+                
+                <div class="discount-card featured">
+                    <div class="discount-badge">Save 25%</div>
+                    <div class="discount-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h3>VIP Membership Discount</h3>
+                    <p>Join our VIP program and save 25% on all rentals plus exclusive perks and priority service.</p>
+                    <ul class="discount-features">
+                        <li><i class="fas fa-check"></i> Priority vehicle selection</li>
+                        <li><i class="fas fa-check"></i> Dedicated concierge service</li>
+                        <li><i class="fas fa-check"></i> Complimentary vehicle delivery</li>
+                        <li><i class="fas fa-check"></i> Access to limited edition models</li>
+                    </ul>
+                    <a href="#" class="discount-btn">Become a VIP</a>
+                </div>
+                
+                <div class="discount-card">
+                    <div class="discount-badge">Save 20%</div>
+                    <div class="discount-icon">
+                        <i class="fas fa-redo"></i>
+                    </div>
+                    <h3>Repeat Customer Discount</h3>
+                    <p>Returning customers automatically receive 20% off their next rental.</p>
+                    <ul class="discount-features">
+                        <li><i class="fas fa-check"></i> Automatic discount application</li>
+                        <li><i class="fas fa-check"></i> Expedited checkout process</li>
+                        <li><i class="fas fa-check"></i> Personalized vehicle recommendations</li>
+                    </ul>
+                    <a href="#" class="discount-btn">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CUSTOMIZATION OPTIONS SECTION -->
+    <section class="customization-options">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Personalize Your Experience</h2>
+                <p>Tailor your luxury vehicle to your exact specifications</p>
+            </div>
+            
+            <div class="customization-tabs">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" data-tab="interior">Interior Options</button>
+                    <button class="tab-btn" data-tab="performance">Performance Upgrades</button>
+                    <button class="tab-btn" data-tab="exterior">Exterior Styling</button>
+                    <button class="tab-btn" data-tab="tech">Technology Add-ons</button>
+                </div>
+                
+                <div class="tab-content">
+                    <div class="tab-pane active" id="interior">
+                        <div class="customization-grid">
+                            <div class="custom-option">
+                                <img src="https://www.mansory.com/sites/default/files/styles/1920x800_fullwidth_car_slider/public/2024-03/mansory_linea_doro_18.jpg?itok=PJKqiUZ8" alt="Premium Leather">
+                                <h4>Premium Leather Package</h4>
+                                <p>Upgrade to handcrafted Nappa leather with custom stitching</p>
+                                <span class="option-price">+₹90,000</span>
+                            </div>
+                            
+                            <div class="custom-option">
+                                <img src="https://hips.hearstapps.com/hmg-prod/images/mansory-maserati-mc20-first-edition-08-jpg-1672345578.jpg" alt="Carbon Fiber Interior">
+                                <h4>Carbon Fiber Interior Trim</h4>
+                                <p>Lightweight carbon fiber accents throughout the cabin</p>
+                                <span class="option-price">+₹1,35,000</span>
+                            </div>
+                            
+                            <div class="custom-option">
+                                <img src="https://i.ytimg.com/vi/FSo-sY38KYc/maxresdefault.jpg" alt="Ambient Lighting">
+                                <h4>Custom Ambient Lighting</h4>
+                                <p>Personalized interior lighting with 64 color options</p>
+                                <span class="option-price">+₹60,000</span>
+                            </div>
+                            
+                            <div class="custom-option">
+                                <img src="https://static0.carbuzzimages.com/wordpress/wp-content/uploads/gallery-images/original/1212000/0/1212000.jpg" alt="Massage Seats">
+                                <h4>Executive Massage Seats</h4>
+                                <p>Multi-contour seats with hot stone massage function</p>
+                                <span class="option-price">+₹1,65,000</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-pane" id="performance">
+                        <div class="customization-grid">
+                            <div class="custom-option">
+                                <img src="https://avatars.mds.yandex.net/get-vertis-journal/4466156/Bezymyannyy7.png_1654699578983/orig" alt="Engine Tuning">
+                                <h4>Performance Engine Tuning</h4>
+                                <p>ECU remapping for increased horsepower and torque</p>
+                                <span class="option-price">+₹1,12,500</span>
+                            </div>
+                            
+                            <div class="custom-option">
+                                <img src="https://i.ytimg.com/vi/riwzlU7UdQA/maxresdefault.jpg" alt="Sport Exhaust">
+                                <h4>Sport Exhaust System</h4>
+                                <p>Titanium exhaust with valve control for enhanced sound</p>
+                                <span class="option-price">+₹1,87,500</span>
+                            </div>
+                            
+                            <div class="custom-option">
+                                <img src="https://www.gwagenparts.com/wp-content/uploads/2023/09/carbon_ceramic_brake_ccb_upgrade_for_mercedes_g_class_g500_g550_g63_amg_g63_4x4%C2%B2_w463a_06.jpg" alt="Carbon Ceramic Brakes">
+                                <h4>Carbon Ceramic Brakes</h4>
+                                <p>Lightweight braking system with superior stopping power</p>
+                                <span class="option-price">+₹2,25,000</span>
+                            </div>
+                            
+                            <div class="custom-option">
+                                <img src="https://mattlewisracing.co.uk/cdn/shop/articles/bmw-m135i-bilstein-dampers2.jpg?v=1730892923" alt="Sport Suspension">
+                                <h4>Adaptive Sport Suspension</h4>
+                                <p>Electronically controlled dampers for optimal handling</p>
+                                <span class="option-price">+₹1,50,000</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-pane" id="exterior">
+                        <div class="customization-grid">
+                            <div class="custom-option">
+                                <img src="https://5.imimg.com/data5/SELLER/Default/2024/8/440334723/ZP/TX/XJ/163738641/aa-500x500.jpg" alt="Carbon Fiber Kit">
+                                <h4>Carbon Fiber Aero Kit</h4>
+                                <p>Full carbon fiber body kit with front splitter and rear diffuser</p>
+                                <span class="option-price">+₹3,75,000</span>
+                            </div>
+                            
+                            <div class="custom-option">
+                                <img src="https://www.slashgear.com/img/gallery/15-of-the-wildest-mansory-special-editions-ever-made/l-intro-1726772178.jpg" alt="Custom Paint">
+                                <h4>Premium Custom Paint</h4>
+                                <p>Exclusive paint colors with ceramic coating protection</p>
+                                <span class="option-price">+₹2,25,000</span>
+                            </div>
+                            
+                            <div class="custom-option">
+                                <img src="https://www.mansory.com/sites/default/files/styles/500x500/public/2019-06/fs.23-wheel-3d.png?itok=uznZwepw" alt="Forged Wheels">
+                                <h4>Forged Alloy Wheels</h4>
+                                <p>Lightweight forged wheels in custom designs and finishes</p>
+                                <span class="option-price">+₹1,87,500</span>
+                            </div>
+                            
+                            <div class="custom-option">
+                                <img src="https://www.digikey.es/~/media/Images/Article%20Library/TechZone%20Articles/2012/September/LEDs%20Lend%20Ambience%20to%20Automotive%20Interior%20Lighting/article-2012september-leds-lend-ambience-to-fig1.jpg" alt="LED Lighting">
+                                <h4>Advanced LED Lighting</h4>
+                                <p>Custom LED headlights and taillights with dynamic functions</p>
+                                <span class="option-price">+₹1,12,500</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-pane" id="tech">
+                        <div class="customization-grid">
+                            <div class="custom-option">
+                                <img src="https://gvelondon.com/wp-content/uploads/2024/10/DSC04568-Edit-1.jpg" alt="Premium Sound">
+                                <h4>Premium Audio System</h4>
+                                <p>High-end audio system with surround sound and subwoofer</p>
+                                <span class="option-price">+₹1,50,000</span>
+                            </div>
+                            
+                            <div class="custom-option">
+                                <img src="https://exoticcars.ae/uploads/cars/rolls-royce-ghost-mansory/image-11156933.jpg" alt="Entertainment System">
+                                <h4>Rear Entertainment System</h4>
+                                <p>Dual high-definition screens with streaming capabilities</p>
+                                <span class="option-price">+₹1,87,500</span>
+                            </div>
+                            
+                            <div class="custom-option">
+                                <img src="https://douradocars.com/wp-content/uploads/2024/08/Mercedes-Benz-S-500-Mansory-for-sale-in-Dubai-03-scaled.webp" alt="Advanced Driver Assistance">
+                                <h4>Advanced Driver Assistance</h4>
+                                <p>Enhanced safety features with 360° camera and night vision</p>
+                                <span class="option-price">+₹2,25,000</span>
+                            </div>
+                            
+                            <div class="custom-option">
+                                <img src="https://gvelondon.com/wp-content/uploads/2024/10/DSC04566-Edit-1.jpg" alt="Connectivity Package">
+                                <h4>Premium Connectivity Package</h4>
+                                <p>Integrated Wi-Fi hotspot and advanced smartphone integration</p>
+                                <span class="option-price">+₹75,000</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PREMIUM BODYKITS SECTION -->
+    <section class="premium-bodykits">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Exclusive Tuning Partnerships</h2>
+                <p>Transform your rental with bodykits from the world's most prestigious tuners</p>
+            </div>
+            
+            <div class="tuning-grid">
+                <div class="tuning-card">
+                    <div class="tuning-logo">
+                        <img src="../images/mansory-logo.png" alt="Mansory">
+                    </div>
+                    <div class="tuning-video">
+                        <video autoplay muted loop playsinline>
+                            <source src="../images/mansory-rolls-royce-cullinan-black-badge-in-dubai-1440-ytshorts.savetube.me.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <h3>Mansory Collection</h3>
+                    <p>Experience the ultimate in aggressive styling and performance with Mansory's exclusive bodykits.</p>
+                    <ul class="tuning-features">
+                        <li><i class="fas fa-check-circle"></i> Full carbon fiber construction</li>
+                        <li><i class="fas fa-check-circle"></i> Widebody conversion</li>
+                        <li><i class="fas fa-check-circle"></i> Custom exhaust systems</li>
+                    </ul>
+                    <div class="tuning-price">
+                        <span>Starting at</span>
+                        <strong>₹6,37,500/day</strong>
+                    </div>
+                    <button class="tuning-btn">Explore Mansory</button>
+                </div>
+                
+                <div class="tuning-card">
+                    <div class="tuning-logo">
+                        <img src="../images/brabus-logo.png" alt="Brabus">
+                    </div>
+                    <div class="tuning-video">
+                        <video autoplay muted loop playsinline>
+                            <source src="../images/brabus-g900-rocket-edition-1-out-of-25-in-the-world-1080-ytshorts.savetube.me.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <h3>Brabus Collection</h3>
+                    <p>Elevate your Mercedes-Benz experience with Brabus, the premier Mercedes tuner known for sophisticated styling.</p>
+                    <ul class="tuning-features">
+                        <li><i class="fas fa-check-circle"></i> Signature Brabus styling</li>
+                        <li><i class="fas fa-check-circle"></i> Performance-tuned engines</li>
+                        <li><i class="fas fa-check-circle"></i> Premium interior upgrades</li>
+                    </ul>
+                    <div class="tuning-price">
+                        <span>Starting at</span>
+                        <strong>₹5,40,000/day</strong>
+                    </div>
+                    <button class="tuning-btn">Explore Brabus</button>
+                </div>
+                
+                <div class="tuning-card">
+                    <div class="tuning-logo">
+                        <img src="../images/gpower.jpg" alt="G-Power">
+                    </div>
+                    <div class="tuning-video">
+                        <video autoplay muted loop playsinline>
+                            <source src="../images/bmw-m4-g-power-bmw-luxury-reel-powerful-new-bmwdrift-music-720-ytshorts.savetube.me.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <h3>G-Power Collection</h3>
+                    <p>Experience the ultimate BMW performance with G-Power's legendary engine tuning and aerodynamic enhancements.</p>
+                    <ul class="tuning-features">
+                        <li><i class="fas fa-check-circle"></i> Supercharger systems</li>
+                        <li><i class="fas fa-check-circle"></i> Titanium exhaust systems</li>
+                        <li><i class="fas fa-check-circle"></i> Carbon fiber aerodynamics</li>
+                    </ul>
+                    <div class="tuning-price">
+                        <span>Starting at</span>
+                        <strong>₹5,10,000/day</strong>
+                    </div>
+                    <button class="tuning-btn">Explore G-Power</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONCIERGE SERVICES SECTION -->
+    <section class="concierge-services">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Premium Concierge Services</h2>
+                <p>Elevate your experience with our white-glove concierge offerings</p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-plane"></i>
+                    </div>
+                    <h3>Airport Transfer</h3>
+                    <p>Seamless pickup and drop-off at any airport with our chauffeur service.</p>
+                    <a href="#" class="service-link">Learn More</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-hotel"></i>
+                    </div>
+                    <h3>Luxury Accommodation</h3>
+                    <p>Access to exclusive partner hotels and private villas at preferred rates.</p>
+                    <a href="#" class="service-link">Learn More</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3>Fine Dining Reservations</h3>
+                    <p>Priority reservations at Michelin-starred restaurants and exclusive venues.</p>
+                    <a href="#" class="service-link">Learn More</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h3>Personalized Itineraries</h3>
+                    <p>Custom travel planning with insider access to exclusive experiences.</p>
+                    <a href="#" class="service-link">Learn More</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <h3>Professional Photography</h3>
+                    <p>Capture your luxury experience with our professional photography service.</p>
+                    <a href="#" class="service-link">Learn More</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>24/7 Personal Assistant</h3>
+                    <p>Dedicated concierge available around the clock for any request.</p>
+                    <a href="#" class="service-link">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MEMBERSHIP TIERS SECTION -->
+    <section class="membership-tiers">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Elite Membership Tiers</h2>
+                <p>Join our exclusive membership program for unparalleled benefits</p>
+            </div>
+            
+            <div class="tiers-container">
+                <div class="tier-card">
+                    <div class="tier-header">
+                        <h3>Silver</h3>
+                        <div class="tier-price">
+                            <span class="price">₹1,49,925</span>
+                            <span class="period">per year</span>
+                        </div>
+                    </div>
+                    <div class="tier-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> 10% discount on all rentals</li>
+                            <li><i class="fas fa-check"></i> Priority booking</li>
+                            <li><i class="fas fa-check"></i> Free upgrades when available</li>
+                            <li><i class="fas fa-check"></i> Airport pickup service</li>
+                            <li><i class="fas fa-check"></i> 24/7 customer support</li>
+                        </ul>
+                    </div>
+                    <button class="tier-btn">Join Silver</button>
+                </div>
+                
+                <div class="tier-card featured">
+                    <div class="tier-badge">Most Popular</div>
+                    <div class="tier-header">
+                        <h3>Gold</h3>
+                        <div class="tier-price">
+                            <span class="price">₹3,74,925</span>
+                            <span class="period">per year</span>
+                        </div>
+                    </div>
+                    <div class="tier-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> 20% discount on all rentals</li>
+                            <li><i class="fas fa-check"></i> Priority booking with guaranteed availability</li>
+                            <li><i class="fas fa-check"></i> Automatic upgrades</li>
+                            <li><i class="fas fa-check"></i> Complimentary chauffeur service</li>
+                            <li><i class="fas fa-check"></i> Access to exclusive events</li>
+                            <li><i class="fas fa-check"></i> Dedicated concierge</li>
+                            <li><i class="fas fa-check"></i> Complimentary fuel service</li>
+                        </ul>
+                    </div>
+                    <button class="tier-btn">Join Gold</button>
+                </div>
+                
+                <div class="tier-card">
+                    <div class="tier-header">
+                        <h3>Platinum</h3>
+                        <div class="tier-price">
+                            <span class="price">₹7,49,925</span>
+                            <span class="period">per year</span>
+                        </div>
+                    </div>
+                    <div class="tier-features">
+                        <ul>
+                            <li><i class="fas fa-check"></i> 30% discount on all rentals</li>
+                            <li><i class="fas fa-check"></i> Unlimited mileage on all rentals</li>
+                            <li><i class="fas fa-check"></i> Access to limited edition vehicles</li>
+                            <li><i class="fas fa-check"></i> Complimentary vehicle delivery worldwide</li>
+                            <li><i class="fas fa-check"></i> Private jet partnerships</li>
+                            <li><i class="fas fa-check"></i> Exclusive track day invitations</li>
+                            <li><i class="fas fa-check"></i> Personal relationship manager</li>
+                            <li><i class="fas fa-check"></i> Bespoke travel planning</li>
+                        </ul>
+                    </div>
+                    <button class="tier-btn">Join Platinum</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="dashboard-footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h2>ELITE AUTO</h2>
+                <p>Luxury Car Rentals</p>
+            </div>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact Support</a>
+            </div>
+            <div class="footer-social">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Elite Auto Luxury. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="dashboard.js"></script>
+</body>
+</html> 

@@ -1,0 +1,52 @@
+.form-row {
+    display: flex;
+    gap: 16px;  /* Reduced from 24px */
+    margin-bottom: 16px;  /* Reduced from 24px */
+}
+
+.form-row .form-group {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+/* Update media queries to handle form-row */
+@media (max-width: 640px) {
+    .form-row {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .form-row .form-group {
+        margin-bottom: 12px;
+    }
+}
+
+/* Add specific styles for terms checkbox in register page */
+.terms {
+    margin-bottom: 16px;
+}
+
+.terms .checkbox-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.terms .checkbox-container input {
+    margin-top: 3px;
+}
+
+.terms .text {
+    font-size: 14px;
+    color: #4B5563;
+    line-height: 1.4;
+}
+
+.terms a {
+    color: #4F46E5;
+    text-decoration: none;
+}
+
+.terms a:hover {
+    text-decoration: underline;
+} 

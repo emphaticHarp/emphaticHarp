@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Elite Auto Luxury</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="register-styles.css">
+    <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+</head>
+<body>
+    <div class="page-container">
+        <div class="left-section">
+            <video class="background-video" autoplay muted loop playsinline>
+                <source src="images/audi.mp4" type="video/mp4">
+            </video>
+            <div class="content">
+                <h1>Join Elite Auto Luxury</h1>
+                <p>Experience the finest luxury cars in the world</p>
+                <div class="features">
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Access to premium vehicles</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>24/7 concierge service</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Exclusive member benefits</span>
+                    </div>
+                </div>
+            </div>
+            <div class="video-overlay"></div>
+        </div>
+
+        <div class="right-section">
+            <div class="form-container">
+                <div class="logo">
+                    <h1 class="logo-text">ELITE AUTO</h1>
+                    <p class="logo-tagline">Luxury Car Rentals</p>
+                </div>
+                
+                <h2>Create your account</h2>
+                <p class="subtitle">Please fill in your information below</p>
+
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="tel" id="phone" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="password-input">
+                            <input type="password" id="password" required>
+                            <i class="fas fa-eye-slash toggle-password"></i>
+                        </div>
+                    </div>
+
+                    <div class="terms">
+                        <label class="checkbox-container">
+                            <input type="checkbox" required>
+                            <span class="checkmark"></span>
+                            <span class="text">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn-register">Create Account</button>
+
+                    <div class="divider">
+                        <span>or continue with</span>
+                    </div>
+
+                    <div class="social-buttons">
+                        <button type="button" class="btn-social google">
+                            <img src="https://cdn.cdnlogo.com/logos/g/35/google-icon.svg" alt="Google">
+                            <span>Google</span>
+                        </button>
+                        <button type="button" class="btn-social facebook">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtfbcYeYgf0wQJ-LSPm3CPbyB7T1p0f5bnaA&s" alt="Facebook">
+                            <span>Facebook</span>
+                        </button>
+                    </div>
+
+                    <p class="login-link">
+                        Already have an account? <a href="index.html">Sign in</a>
+                    </p>
+                </form>
+
+                <div class="loader-container" style="display: none;">
+                    <dotlottie-player 
+                        src="https://lottie.host/863b47da-7fd2-4ff4-9e5d-4efebbb35689/TGP5LLjLqH.lottie" 
+                        background="transparent" 
+                        speed="1" 
+                        style="width: 300px; height: 300px" 
+                        loop 
+                        autoplay
+                    ></dotlottie-player>
+                    <p class="loading-text">Creating your account...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal success-modal" style="display: none;">
+        <div class="modal-content">
+            <dotlottie-player 
+                src="https://lottie.host/d074969e-37d0-4d27-b36c-027c7c2e9bba/Zv3HZazJh0.lottie" 
+                background="transparent" 
+                speed="1" 
+                style="width: 300px; height: 300px" 
+                loop 
+                autoplay
+            ></dotlottie-player>
+            <h3>Registration Successful!</h3>
+            <p>Please check your email for verification.</p>
+            <button class="modal-btn" onclick="window.location.href='index.html'">Go to Login</button>
+        </div>
+    </div>
+
+    <div class="modal error-modal" style="display: none;">
+        <div class="modal-content">
+            <dotlottie-player 
+                src="https://lottie.host/370fb68a-0f14-4167-93d8-f139b4532c18/R2j2J0O7MK.lottie" 
+                background="transparent" 
+                speed="1" 
+                style="width: 300px; height: 300px" 
+                loop 
+                autoplay
+            ></dotlottie-player>
+            <h3>Account Already Exists</h3>
+            <p>Please login to your account.</p>
+            <button class="modal-btn" onclick="window.location.href='index.html'">Go to Login</button>
+        </div>
+    </div>
+
+    <div class="modal cooldown-modal" style="display: none;">
+        <div class="modal-content">
+            <dotlottie-player 
+                src="https://lottie.host/370fb68a-0f14-4167-93d8-f139b4532c18/R2j2J0O7MK.lottie" 
+                background="transparent" 
+                speed="1" 
+                style="width: 300px; height: 300px" 
+                loop 
+                autoplay
+            ></dotlottie-player>
+            <h3>Please Wait</h3>
+            <p>For security purposes, please try again in a few seconds.</p>
+            <button class="modal-btn" onclick="location.reload()">Try Again</button>
+        </div>
+    </div>
+
+    <div class="modal invalid-email-modal" style="display: none;">
+        <div class="modal-content">
+            <dotlottie-player 
+                src="https://lottie.host/370fb68a-0f14-4167-93d8-f139b4532c18/R2j2J0O7MK.lottie" 
+                background="transparent" 
+                speed="1" 
+                style="width: 300px; height: 300px" 
+                loop 
+                autoplay
+            ></dotlottie-player>
+            <h3>Invalid Email</h3>
+            <p>Please enter a valid email address.</p>
+            <button class="modal-btn" onclick="location.reload()">Try Again</button>
+        </div>
+    </div>
+    <script src="register.js"></script>
+</body>
+</html> 

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Processing Authentication</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        .loader-container {
+            text-align: center;
+            max-width: 600px;
+            padding: 20px;
+        }
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .debug {
+            margin-top: 30px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background: #fff;
+            display: none;
+            text-align: left;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="loader-container">
+        <div class="loader"></div>
+        <h2>Processing your authentication...</h2>
+        <p>Please wait while we redirect you.</p>
+        <div id="manualRedirect" style="display: none;">
+            <p>If you're not redirected automatically, please click the button below:</p>
+            <button id="redirectButton" class="button">Continue</button>
+        </div>
+        <div id="debug" class="debug"></div>
+    </div>
+
+    <script>
+        // Initialize Supabase client
+        const { createClient } = supabase;
+        const supabaseClient = createClient(
+            'https://xsqdxhopiuyukbqeyfzj.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhzcWR4aG9waXV5dWticWV5ZnpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEyNjU3NzYsImV4cCI6MjA1Njg0MTc3Nn0.9R6l5jUMy41Z8OT7gKOmExpx37_j50lbbOJcWUaahOU'
+        );
+
+        // Helper function to log debug info
+        function debug(message) {
+            const debugElement = document.getElementById('debug');
+            debugElement.style.display = 'block';
+            debugElement.innerHTML += new Date().toISOString().substring(11, 19) + ': ' + message + '<br>';
+        }
+
+        // Show debug info on double click
+        document.addEventListener('dblclick', function() {
+            document.getElementById('debug').style.display = 'block';
+        });
+
+        // Enable debug mode by default in development
+        const enableDebugByDefault = true;
+        if (enableDebugByDefault) {
+            setTimeout(() => {
+                document.getElementById('debug').style.display = 'block';
+            }, 500);
+        }
+
+        // Print all user data for debugging
+        async function debugUserData() {
+            try {
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                if (session) {
+                    const { data: userData } = await supabaseClient.auth.getUser();
+                    
+                    debug('========= USER DATA DUMP =========');
+                    debug('User ID: ' + userData.user.id);
+                    debug('Email: ' + userData.user.email);
+                    debug('Created at: ' + userData.user.created_at);
+                    debug('Last sign in: ' + userData.user.last_sign_in_at);
+                    
+                    if (userData.user.identities && userData.user.identities.length > 0) {
+                        debug('--- IDENTITY PROVIDERS ---');
+                        userData.user.identities.forEach((identity, index) => {
+                            debug(`[${index}] Provider: ${identity.provider}`);
+                            debug(`[${index}] Provider ID: ${identity.provider_id}`);
+                            debug(`[${index}] Created: ${identity.created_at}`);
+                            debug(`[${index}] Updated: ${identity.updated_at}`);
+                        });
+                    }
+                    
+                    debug('=================================');
+                } else {
+                    debug('No active session to dump user data');
+                }
+            } catch (error) {
+                debug('Error dumping user data: ' + error.message);
+            }
+        }
+
+        // Get saved OAuth data from localStorage
+        function getOAuthData() {
+            return {
+                provider: localStorage.getItem('oauth_provider'),
+                source: localStorage.getItem('oauth_source'),
+                finalDestination: localStorage.getItem('oauth_final_destination')
+            };
+        }
+
+        // Clear OAuth data from localStorage
+        function clearOAuthData() {
+            localStorage.removeItem('oauth_provider');
+            localStorage.removeItem('oauth_redirect_url');
+            localStorage.removeItem('oauth_final_destination');
+            localStorage.removeItem('oauth_source');
+        }
+
+        // Manual redirect function
+        function setupManualRedirect(url) {
+            document.getElementById('manualRedirect').style.display = 'block';
+            document.getElementById('redirectButton').addEventListener('click', function() {
+                window.location.href = url;
+            });
+        }
+
+        // Simple way to check if user is new (has just logged in for the first time)
+        async function isNewUser() {
+            try {
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                if (!session) return false;
+                
+                // Get the user data
+                const { data: userData } = await supabaseClient.auth.getUser();
+                
+                if (!userData?.user) return false;
+                
+                // Check if created_at and last_sign_in_at are close to each other
+                const createdAt = new Date(userData.user.created_at).getTime();
+                const lastSignIn = new Date(userData.user.last_sign_in_at).getTime();
+                
+                // If the difference is less than 5 seconds, it's likely a new user
+                const timeDiff = Math.abs(lastSignIn - createdAt);
+                debug(`Time difference between creation and sign in: ${timeDiff/1000} seconds`);
+                
+                return timeDiff < 5000;
+            } catch (error) {
+                debug('Error checking if new user: ' + error.message);
+                return false;
+            }
+        }
+
+        async function handleCallback() {
+            try {
+                debug('Starting OAuth callback handling');
+                
+                // Check for session directly from Supabase
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                
+                // Get OAuth data from localStorage
+                const oauthData = getOAuthData();
+                
+                debug('OAuth source: ' + oauthData.source);
+                debug('OAuth provider: ' + oauthData.provider);
+                debug('Final destination: ' + oauthData.finalDestination);
+                
+                if (session) {
+                    debug('Active session detected');
+                    debug('User ID: ' + session.user.id);
+                    debug('Email: ' + session.user.email);
+                    
+                    // Dump detailed user data for debugging
+                    await debugUserData();
+                    
+                    // Check if this is a new user
+                    const userIsNew = await isNewUser();
+                    debug('Is new user: ' + userIsNew);
+                    
+                    if (userIsNew && oauthData.source === 'login') {
+                        debug('New user detected during login - redirecting to registration');
+                        
+                        // Sign out the user
+                        await supabaseClient.auth.signOut();
+                        
+                        // Clean up localStorage
+                        clearOAuthData();
+                        
+                        // Redirect to register page with message
+                        window.location.href = 'register.html?new_oauth_user=true';
+                    } else {
+                        debug('Existing user or registration - proceeding with flow');
+                        
+                        if (oauthData.source === 'register') {
+                            debug('Registration flow - signing out user');
+                            await supabaseClient.auth.signOut();
+                            
+                            // Redirect to login page with success message
+                            const loginUrl = 'index.html?registration=true&force_login=true';
+                            debug('Redirecting to: ' + loginUrl);
+                            
+                            // Clean up localStorage
+                            clearOAuthData();
+                            
+                            // Set up manual redirect as fallback
+                            setupManualRedirect(loginUrl);
+                            
+                            // Auto redirect
+                            setTimeout(() => {
+                                window.location.href = loginUrl;
+                            }, 1500);
+                        } else {
+                            // Login flow with existing user - redirect to dashboard
+                            debug('Login flow - redirecting to dashboard');
+                            
+                            const destination = oauthData.finalDestination || 'dashboard/dashboard.html';
+                            
+                            // Clean up localStorage
+                            clearOAuthData();
+                            
+                            // Set up manual redirect as fallback
+                            setupManualRedirect(destination);
+                            
+                            // Auto redirect
+                            setTimeout(() => {
+                                window.location.href = destination;
+                            }, 1500);
+                        }
+                    }
+                } else {
+                    debug('No session detected - redirecting to login page');
+                    // Clean up localStorage
+                    clearOAuthData();
+                    
+                    window.location.href = 'index.html';
+                }
+            } catch (error) {
+                debug('Error: ' + error.message);
+                debug('Stack: ' + error.stack);
+                
+                // Clean up localStorage
+                clearOAuthData();
+                
+                // If anything goes wrong, show manual redirect option
+                setupManualRedirect('index.html');
+            }
+        }
+
+        // Call the handler when page loads
+        window.onload = handleCallback;
+    </script>
+</body>
+</html> 

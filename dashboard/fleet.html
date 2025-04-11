@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Auto Luxury - Fleet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="fleet.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-top">
+            <div class="nav-content">
+                <div class="logo">
+                    <h1 class="logo-text">ELITE AUTO</h1>
+                    <p class="logo-tagline">Luxury Car Rentals</p>
+                </div>
+                
+                <div class="top-actions">
+                    <div class="search-container">
+                        <input type="text" class="search-input" placeholder="Search for vehicles, services...">
+                        <button class="search-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                    
+                    <div class="nav-actions">
+                        <div class="language-selector">
+                            <span class="current-lang"><i class="fas fa-globe"></i> <span>EN</span></span>
+                            <div class="language-dropdown">
+                                <a href="#" class="lang-option active">English</a>
+                                <a href="#" class="lang-option">हिन्दी</a>
+                                <a href="#" class="lang-option">日本語</a>
+                                <a href="#" class="lang-option">Español</a>
+                                <a href="#" class="lang-option">Français</a>
+                                <a href="#" class="lang-option">Deutsch</a>
+                            </div>
+                        </div>
+
+                        <div class="notification-bell">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-badge">3</span>
+                            <div class="notification-dropdown">
+                                <div class="notification-header">
+                                    <h3>Notifications</h3>
+                                    <a href="#">Mark all as read</a>
+                                </div>
+                                <div class="notification-item unread">
+                                    <div class="notification-icon"><i class="fas fa-calendar-check"></i></div>
+                                    <div class="notification-content">
+                                        <p>Your reservation for Lamborghini Aventador is confirmed</p>
+                                        <span class="notification-time">2 hours ago</span>
+                                    </div>
+                                </div>
+                                <div class="notification-item unread">
+                                    <div class="notification-icon"><i class="fas fa-tag"></i></div>
+                                    <div class="notification-content">
+                                        <p>Special 15% discount available on your next booking</p>
+                                        <span class="notification-time">Yesterday</span>
+                                    </div>
+                                </div>
+                                <div class="notification-item unread">
+                                    <div class="notification-icon"><i class="fas fa-car"></i></div>
+                                    <div class="notification-content">
+                                        <p>New Ferrari SF90 Stradale added to our collection</p>
+                                        <span class="notification-time">3 days ago</span>
+                                    </div>
+                                </div>
+                                <a href="#" class="view-all-notifications">View All Notifications</a>
+                            </div>
+                        </div>
+
+                        <div class="profile-menu" id="profileMenu">
+                            <img src="https://ui-avatars.com/api/?background=C41E3A&color=fff" alt="Profile" class="profile-image" id="profileImage">
+                            <span id="profileName" style="font-weight: 500;">Loading...</span>
+                            <i class="fas fa-chevron-down"></i>
+
+                            <div class="dropdown-menu" id="dropdownMenu">
+                                <a href="#" class="dropdown-item">
+                                    <i class="fas fa-user"></i>
+                                    <span>Profile</span>
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    <i class="fas fa-history"></i>
+                                    <span>Rental History</span>
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    <i class="fas fa-crown"></i>
+                                    <span>VIP Status</span>
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    <i class="fas fa-cog"></i>
+                                    <span>Settings</span>
+                                </a>
+                                <a href="#" class="dropdown-item">
+                                    <i class="fas fa-question-circle"></i>
+                                    <span>Help & Support</span>
+                                </a>
+                                <a href="#" class="dropdown-item logout-btn" id="logoutBtn">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <span>Sign Out</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="navbar-bottom">
+            <div class="nav-content">
+                <ul class="nav-menu">
+                    <li><a href="dashboard.html" class="nav-link"><i class="fas fa-chart-line"></i> Overview</a></li>
+                    <li><a href="fleet.html" class="nav-link active"><i class="fas fa-car-side"></i> Fleet</a></li>
+                  
+                    <li><a href="#" class="nav-link"><i class="fas fa-calendar-check"></i> Reservations</a></li>
+                    <li><a href="#" class="nav-link"><i class="fas fa-concierge-bell"></i> Concierge</a></li>
+                    <li><a href="#" class="nav-link"><i class="fas fa-map-marked-alt"></i> Experiences</a></li>
+                    <li><a href="#" class="nav-link"><i class="fas fa-tools"></i> Customization</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="fleet-container">
+    <div class="fleet-hero">
+        <div class="video-background">
+            <video autoplay muted loop id="heroVideo">
+                <source src="../images/video.webm" type="video/webm">
+                <!-- Fallback for browsers that don't support video -->
+                Your browser does not support the video tag.
+            </video>
+            <div class="video-overlay"></div>
+        </div>
+        <div class="fleet-hero-content">
+            <h1>Our Exclusive Fleet</h1>
+            <p>Experience luxury and performance with our handpicked collection of the world's finest automobiles</p>
+        </div>
+    </div>
+
+    <div class="fleet-filter-container">
+        <div class="filter-wrapper">
+            <div class="filter-group">
+                <label>Category</label>
+                    <select class="filter-select" id="categoryFilter">
+                        <option value="all">All Categories</option>
+                        <option value="supercar">Supercars</option>
+                        <option value="hypercar">Hypercars</option>
+                        <option value="luxury">Luxury</option>
+                        <option value="sports">Sports</option>
+                        <option value="suv">SUVs</option>
+                    </select>
+            </div>
+            
+            <div class="filter-group">
+                <label>Brand</label>
+                <select class="filter-select" id="brandFilter">
+                    <option value="all">All Brands</option>
+                    <option value="ferrari">Ferrari</option>
+                    <option value="lamborghini">Lamborghini</option>
+                    <option value="rolls-royce">Rolls-Royce</option>
+                    <option value="bentley">Bentley</option>
+                        <option value="porsche">Porsche</option>
+                    <option value="mclaren">McLaren</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                    <label>Max Price: <span id="priceValue">₹5,00,000</span>/day</label>
+                        <input type="range" class="range-slider" id="priceRange" 
+                               min="50000" max="500000" step="10000" value="500000">
+            </div>
+            
+            <div class="filter-group">
+                <label>Features</label>
+                <div class="filter-checkboxes">
+                    <label class="checkbox-label">
+                            <input type="checkbox" value="chauffeur"> Chauffeur
+                    </label>
+                    <label class="checkbox-label">
+                            <input type="checkbox" value="insurance"> Insurance
+                    </label>
+                </div>
+            </div>
+            
+                <button class="apply-filters-btn">Apply</button>
+            </div>
+    </div>
+
+    <!-- Fleet Showcase Section -->
+    <div class="fleet-showcase">
+        <div class="section-container">
+            <!-- Supercars Section -->
+            <div class="vehicle-category" id="supercars">
+                <div class="category-header">
+                    <h2>Supercars</h2>
+                    <p>Experience unparalleled performance and head-turning design</p>
+                </div>
+                
+                <div class="vehicles-grid">
+                    <!-- Vehicle Card 1 -->
+                    <div class="vehicle-card" data-category="supercar" data-brand="ferrari" data-price="150000">
+                        <div class="vehicle-badge">Most Popular</div>
+                        <div class="vehicle-image">
+                            <img src="../images/ferrari-sf90.jpg" alt="Ferrari SF90 Stradale">
+                            <div class="vehicle-actions">
+                                <button class="action-btn" title="More Info"><i class="fas fa-info-circle"></i></button>
+                                <button class="action-btn" title="Add to Favorites"><i class="fas fa-heart"></i></button>
+                                <button class="action-btn buy-btn" data-vehicle-name="Ferrari SF90 Stradale" title="Buy Now"><i class="fas fa-shopping-cart"></i></button>
+                                <button class="action-btn rent-btn" data-vehicle-name="Ferrari SF90 Stradale" title="Rent Now"><i class="fas fa-calendar-check"></i></button>
+                            </div>
+                        </div>
+                        <div class="vehicle-details">
+                            <div class="vehicle-name">
+                                <h3>Ferrari SF90 Stradale</h3>
+                                <div class="vehicle-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span>(24 reviews)</span>
+                                </div>
+                            </div>
+                            <div class="vehicle-specs">
+                                <div class="spec">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    <span>986 HP</span>
+                                </div>
+                                <div class="spec">
+                                    <i class="fas fa-bolt"></i>
+                                    <span>2.5s 0-100</span>
+                                </div>
+                                <div class="spec">
+                                    <i class="fas fa-gas-pump"></i>
+                                    <span>Hybrid</span>
+                                </div>
+                            </div>
+                            <div class="vehicle-footer">
+                                <div class="vehicle-price">
+                                    <span class="price">₹1,50,000</span>
+                                    <span class="period">per day</span>
+                                </div>
+                                <button class="details-btn">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Vehicle Card 2 -->
+                    <div class="vehicle-card" data-category="supercar" data-brand="lamborghini" data-price="175000">
+                        <div class="vehicle-image">
+                            <img src="../images/lamborghini-aventador.jpg" alt="Lamborghini Aventador SVJ">
+                            <div class="vehicle-actions">
+                                <button class="action-btn" title="More Info"><i class="fas fa-info-circle"></i></button>
+                                <button class="action-btn" title="Add to Favorites"><i class="fas fa-heart"></i></button>
+                                <button class="action-btn buy-btn" data-vehicle-name="Lamborghini Aventador SVJ" title="Buy Now"><i class="fas fa-shopping-cart"></i></button>
+                                <button class="action-btn rent-btn" data-vehicle-name="Lamborghini Aventador SVJ" title="Rent Now"><i class="fas fa-calendar-check"></i></button>
+                            </div>
+                        </div>
+                        <div class="vehicle-details">
+                            <div class="vehicle-name">
+                                <h3>Lamborghini Aventador SVJ</h3>
+                                <div class="vehicle-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span>(18 reviews)</span>
+                                </div>
+                            </div>
+                            <div class="vehicle-specs">
+                                <div class="spec">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    <span>770 HP</span>
+                                </div>
+                                <div class="spec">
+                                    <i class="fas fa-bolt"></i>
+                                    <span>2.8s 0-100</span>
+                                </div>
+                                <div class="spec">
+                                    <i class="fas fa-gas-pump"></i>
+                                    <span>V12</span>
+                                </div>
+                            </div>
+                            <div class="vehicle-footer">
+                                <div class="vehicle-price">
+                                    <span class="price">₹1,75,000</span>
+                                    <span class="period">per day</span>
+                                </div>
+                                <button class="details-btn">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Vehicle Card 3 -->
+                    <div class="vehicle-card" data-category="supercar" data-brand="mclaren" data-price="145000">
+                        <div class="vehicle-badge">New Arrival</div>
+                        <div class="vehicle-image">
+                            <img src="../images/mclaren-720s.jpg" alt="McLaren 720S">
+                            <div class="vehicle-actions">
+                                <button class="action-btn" title="More Info"><i class="fas fa-info-circle"></i></button>
+                                <button class="action-btn" title="Add to Favorites"><i class="fas fa-heart"></i></button>
+                                <button class="action-btn buy-btn" data-vehicle-name="McLaren 720S" title="Buy Now"><i class="fas fa-shopping-cart"></i></button>
+                                <button class="action-btn rent-btn" data-vehicle-name="McLaren 720S" title="Rent Now"><i class="fas fa-calendar-check"></i></button>
+                            </div>
+                        </div>
+                        <div class="vehicle-details">
+                            <div class="vehicle-name">
+                                <h3>McLaren 720S</h3>
+                                <div class="vehicle-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span>(21 reviews)</span>
+                                </div>
+                            </div>
+                            <div class="vehicle-specs">
+                                <div class="spec">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    <span>720 HP</span>
+                                </div>
+                                <div class="spec">
+                                    <i class="fas fa-bolt"></i>
+                                    <span>2.9s 0-100</span>
+                                </div>
+                                <div class="spec">
+                                    <i class="fas fa-gas-pump"></i>
+                                    <span>V8 Twin-Turbo</span>
+                                </div>
+                            </div>
+                            <div class="vehicle-footer">
+                                <div class="vehicle-price">
+                                    <span class="price">₹1,45,000</span>
+                                    <span class="period">per day</span>
+                                </div>
+                                <button class="details-btn">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Hypercars Section -->
+            <div class="vehicle-category" id="hypercars">
+                <div class="category-header">
+                    <h2>Hypercars</h2>
+                    <p>The pinnacle of automotive engineering and exclusivity</p>
+                </div>
+                
+                <div class="vehicles-grid">
+                    <!-- Vehicle Card 4 -->
+                    <div class="vehicle-card" data-category="hypercar" data-brand="bugatti" data-price="200000">
+                        <div class="vehicle-badge">Ultra Exclusive</div>
+                        <div class="vehicle-image">
+                            <img src="../images/bugatti-chiron.jpg" alt="Bugatti Chiron">
+                            <div class="vehicle-actions">
+                                <button class="action-btn" title="More Info"><i class="fas fa-info-circle"></i></button>
+                                <button class="action-btn" title="Add to Favorites"><i class="fas fa-heart"></i></button>
+                                <button class="action-btn buy-btn" data-vehicle-name="Bugatti Chiron" title="Buy Now"><i class="fas fa-shopping-cart"></i></button>
+                                <button class="action-btn rent-btn" data-vehicle-name="Bugatti Chiron" title="Rent Now"><i class="fas fa-calendar-check"></i></button>
+                            </div>
+                        </div>
+                        <div class="vehicle-details">
+                            <div class="vehicle-name">
+                                <h3>Bugatti Chiron</h3>
+                                <div class="vehicle-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span>(12 reviews)</span>
+                                </div>
+                            </div>
+                            <div class="vehicle-specs">
+                                <div class="spec">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    <span>1500 HP</span>
+                                </div>
+                                <div class="spec">
+                                    <i class="fas fa-bolt"></i>
+                                    <span>2.4s 0-100</span>
+                                </div>
+                                <div class="spec">
+                                    <i class="fas fa-gas-pump"></i>
+                                    <span>W16 Quad-Turbo</span>
+                                </div>
+                            </div>
+                            <div class="vehicle-footer">
+                                <div class="vehicle-price">
+                                    <span class="price">₹2,00,000</span>
+                                    <span class="period">per day</span>
+                                </div>
+                                <button class="details-btn">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Vehicle Card 5 -->
+                    <div class="vehicle-card" data-category="hypercar" data-brand="porsche" data-price="180000">
+                        <div class="vehicle-image">
+                            <img src="../images/porsche-918.jpg" alt="Porsche 918 Spyder">
+                            <div class="vehicle-actions">
+                                <button class="action-btn" title="More Info"><i class="fas fa-info-circle"></i></button>
+                                <button class="action-btn" title="Add to Favorites"><i class="fas fa-heart"></i></button>
+                                <button class="action-btn buy-btn" data-vehicle-name="Porsche 918 Spyder" title="Buy Now"><i class="fas fa-shopping-cart"></i></button>
+                                <button class="action-btn rent-btn" data-vehicle-name="Porsche 918 Spyder" title="Rent Now"><i class="fas fa-calendar-check"></i></button>
+                            </div>
+                        </div>
+                        <div class="vehicle-details">
+                            <div class="vehicle-name">
+                                <h3>Porsche 918 Spyder</h3>
+                                <div class="vehicle-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span>(15 reviews)</span>
+                                </div>
+                            </div>
+                            <div class="vehicle-specs">
+                                <div class="spec">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    <span>887 HP</span>
+                                </div>
+                                <div class="spec">
+                                    <i class="fas fa-bolt"></i>
+                                    <span>2.6s 0-100</span>
+                                </div>
+                                <div class="spec">
+                                    <i class="fas fa-gas-pump"></i>
+                                    <span>Hybrid V8</span>
+                                </div>
+                            </div>
+                            <div class="vehicle-footer">
+                                <div class="vehicle-price">
+                                    <span class="price">₹1,80,000</span>
+                                    <span class="period">per day</span>
+                                </div>
+                                <button class="details-btn">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Luxury Section -->
+            <div class="vehicle-category" id="luxury">
+                <div class="category-header">
+                    <h2>Luxury Cars</h2>
+                    <p>Uncompromising comfort and sophistication for the discerning traveler</p>
+                </div>
+                
+                <div class="vehicles-grid">
+                    <!-- Vehicle Card 6 -->
+                    <div class="vehicle-card" data-category="luxury" data-brand="rolls-royce" data-price="120000">
+                        <div class="vehicle-image">
+                            <img src="../images/rolls-royce-phantom.jpg" alt="Rolls-Royce Phantom">
+                            <div class="vehicle-actions">
+                                <button class="action-btn" title="More Info"><i class="fas fa-info-circle"></i></button>
+                                <button class="action-btn" title="Add to Favorites"><i class="fas fa-heart"></i></button>
+                                <button class="action-btn buy-btn" data-vehicle-name="Rolls-Royce Phantom" title="Buy Now"><i class="fas fa-shopping-cart"></i></button>
+                                <button class="action-btn rent-btn" data-vehicle-name="Rolls-Royce Phantom" title="Rent Now"><i class="fas fa-calendar-check"></i></button>
+                            </div>
+                        </div>
+                        <div class="vehicle-details">
+                            <div class="vehicle-name">
+                                <h3>Rolls-Royce Phantom</h3>
+                                <div class="vehicle-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span>(19 reviews)</span>
+                                </div>
+                            </div>
+                            <div class="vehicle-specs">
+                                <div class="spec">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    <span>563 HP</span>
+                                </div>
+                                <div class="spec">
+                                    <i class="fas fa-bolt"></i>
+                                    <span>5.1s 0-100</span>
+                                </div>
+                                <div class="spec">
+                                    <i class="fas fa-gas-pump"></i>
+                                    <span>V12 Twin-Turbo</span>
+                                </div>
+                            </div>
+                            <div class="vehicle-footer">
+                                <div class="vehicle-price">
+                                    <span class="price">₹1,20,000</span>
+                                    <span class="period">per day</span>
+                                </div>
+                                <button class="details-btn">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Vehicle Card 7 -->
+                    <div class="vehicle-card" data-category="luxury" data-brand="bentley" data-price="95000">
+                        <div class="vehicle-image">
+                            <img src="../images/bentley-continental.jpg" alt="Bentley Continental GT">
+                            <div class="vehicle-actions">
+                                <button class="action-btn" title="More Info"><i class="fas fa-info-circle"></i></button>
+                                <button class="action-btn" title="Add to Favorites"><i class="fas fa-heart"></i></button>
+                                <button class="action-btn buy-btn" data-vehicle-name="Bentley Continental GT" title="Buy Now"><i class="fas fa-shopping-cart"></i></button>
+                                <button class="action-btn rent-btn" data-vehicle-name="Bentley Continental GT" title="Rent Now"><i class="fas fa-calendar-check"></i></button>
+                            </div>
+                        </div>
+                        <div class="vehicle-details">
+                            <div class="vehicle-name">
+                                <h3>Bentley Continental GT</h3>
+                                <div class="vehicle-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span>(22 reviews)</span>
+                                </div>
+                            </div>
+                            <div class="vehicle-specs">
+                                <div class="spec">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    <span>626 HP</span>
+                                </div>
+                                <div class="spec">
+                                    <i class="fas fa-bolt"></i>
+                                    <span>3.6s 0-100</span>
+                                </div>
+                                <div class="spec">
+                                    <i class="fas fa-gas-pump"></i>
+                                    <span>W12 Twin-Turbo</span>
+                                </div>
+                            </div>
+                            <div class="vehicle-footer">
+                                <div class="vehicle-price">
+                                    <span class="price">₹95,000</span>
+                                    <span class="period">per day</span>
+                                </div>
+                                <button class="details-btn">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Vehicle Card 8 -->
+                    <div class="vehicle-card" data-category="luxury" data-brand="mercedes" data-price="75000">
+                        <div class="vehicle-image">
+                            <img src="../images/mercedes-maybach.jpg" alt="Mercedes-Maybach S-Class">
+                            <div class="vehicle-actions">
+                                <button class="action-btn" title="More Info"><i class="fas fa-info-circle"></i></button>
+                                <button class="action-btn" title="Add to Favorites"><i class="fas fa-heart"></i></button>
+                                <button class="action-btn buy-btn" data-vehicle-name="Mercedes-Maybach S-Class" title="Buy Now"><i class="fas fa-shopping-cart"></i></button>
+                                <button class="action-btn rent-btn" data-vehicle-name="Mercedes-Maybach S-Class" title="Rent Now"><i class="fas fa-calendar-check"></i></button>
+                            </div>
+                        </div>
+                        <div class="vehicle-details">
+                            <div class="vehicle-name">
+                                <h3>Mercedes-Maybach S-Class</h3>
+                                <div class="vehicle-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <span>(26 reviews)</span>
+                                </div>
+                            </div>
+                            <div class="vehicle-specs">
+                                <div class="spec">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    <span>496 HP</span>
+                                </div>
+                                <div class="spec">
+                                    <i class="fas fa-bolt"></i>
+                                    <span>4.8s 0-100</span>
+                                </div>
+                                <div class="spec">
+                                    <i class="fas fa-gas-pump"></i>
+                                    <span>V8 Biturbo</span>
+                                </div>
+                            </div>
+                            <div class="vehicle-footer">
+                                <div class="vehicle-price">
+                                    <span class="price">₹75,000</span>
+                                    <span class="period">per day</span>
+                                </div>
+                                <button class="details-btn">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sports Cars Section -->
+            <div class="vehicle-category" id="sports">
+                <div class="category-header">
+                    <h2>Sports Cars</h2>
+                    <p>Precision engineering and driving dynamics for the enthusiast</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <footer class="dashboard-footer">
+        <!-- ... existing footer code from dashboard.html ... -->
+    </footer>
+
+    <!-- New Car Details Modal -->
+    <div id="newCarModal" class="new-car-modal">
+        <div class="new-modal-content">
+            <span class="new-close-btn">&times;</span>
+            
+            <div class="new-car-container">
+                <!-- Left Side - Gallery -->
+                <div class="new-car-gallery">
+                    <div class="new-main-image">
+                        <img id="newMainImage" src="" alt="Car Image">
+                    </div>
+                    <div class="new-thumbnails">
+                        <img class="new-thumb active" src="" alt="Thumbnail 1">
+                        <img class="new-thumb" src="" alt="Thumbnail 2">
+                        <img class="new-thumb" src="" alt="Thumbnail 3">
+                        <img class="new-thumb" src="" alt="Thumbnail 4">
+                    </div>
+                </div>
+
+                <!-- Right Side - Car Info -->
+                <div class="new-car-info">
+                    <h2 id="newCarName"></h2>
+                    
+                    <div class="new-car-rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <span id="newReviewCount"></span>
+                    </div>
+
+                    <div class="new-car-price">
+                        <span id="newPrice"></span>
+                        <span class="per-day">/day</span>
+                    </div>
+
+                    <div class="new-car-description">
+                        <p id="newDescription"></p>
+                    </div>
+
+                    <div class="new-car-specs">
+                        <h3>Specifications</h3>
+                        <div class="new-specs-grid">
+                            <div class="new-spec-item">
+                                <i class="fas fa-engine"></i>
+                                <div class="new-spec-details">
+                                    <span class="new-spec-label">Engine</span>
+                                    <span id="newEngineSpec" class="new-spec-value"></span>
+                                </div>
+                            </div>
+                            <div class="new-spec-item">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <div class="new-spec-details">
+                                    <span class="new-spec-label">Horsepower</span>
+                                    <span id="newHorsepowerSpec" class="new-spec-value"></span>
+                                </div>
+                            </div>
+                            <div class="new-spec-item">
+                                <i class="fas fa-bolt"></i>
+                                <div class="new-spec-details">
+                                    <span class="new-spec-label">Acceleration</span>
+                                    <span id="newAccelerationSpec" class="new-spec-value"></span>
+                                </div>
+                            </div>
+                            <div class="new-spec-item">
+                                <i class="fas fa-gauge-high"></i>
+                                <div class="new-spec-details">
+                                    <span class="new-spec-label">Top Speed</span>
+                                    <span id="newTopSpeedSpec" class="new-spec-value"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="new-car-features">
+                        <h3>Features</h3>
+                        <ul id="newFeaturesList"></ul>
+                    </div>
+
+                    <div class="new-action-buttons">
+                        <button class="new-rent-btn">Rent Now</button>
+                        <button class="new-buy-btn">Buy Now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="dashboard.js"></script>
+    <script src="fleet.js"></script>
+</body>
+</html> 

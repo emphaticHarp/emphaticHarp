@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Auto Luxury - Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    
+    <!-- Initialize Supabase -->
+    <script>
+        const SUPABASE_URL = 'https://xsqdxhopiuyukbqeyfzj.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhzcWR4aG9waXV5dWticWV5ZnpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDEyNjU3NzYsImV4cCI6MjA1Njg0MTc3Nn0.9R6l5jUMy41Z8OT7gKOmExpx37_j50lbbOJcWUaahOU';
+        window.supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    </script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="brand">
+                <i class="fas fa-car-side"></i>
+                <h1>Elite Auto Luxury</h1>
+            </div>
+            
+            <div class="nav-links">
+                <a href="dashboard.html" class="nav-item active">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="vehicles.html" class="nav-item">
+                    <i class="fas fa-car"></i>
+                    <span>Vehicles</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Bookings</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-users"></i>
+                    <span>Customers</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-rupee-sign"></i>
+                    <span>Revenue</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-star"></i>
+                    <span>Reviews</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+            <div class="breadcrumb">
+                <a href="#" style="color: var(--text-light); text-decoration: none;">Home</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Dashboard</span>
+            </div>
+            
+            <div class="profile-card">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <img src="https://ui-avatars.com/api/?name=Admin&background=C41E3A&color=fff" alt="Admin">
+                        <div class="status-indicator"></div>
+                    </div>
+                    <div class="user-details">
+                        <span class="user-name" id="userName">Loading...</span>
+                        <span class="user-role">Administrator</span>
+                    </div>
+                </div>
+                
+                <div class="profile-actions">
+                    <button class="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    
+                    <button class="logout-btn" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Welcome Section -->
+        <div class="welcome-section">
+            <div class="welcome-text">
+                <h2>Welcome to Elite Auto Luxury</h2>
+                <p>Manage your luxury fleet, track bookings, and monitor revenue all from this dashboard. Get a quick overview of your business performance and make data-driven decisions.</p>
+            </div>
+            <div class="welcome-image"></div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-car"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-value" id="vehicleCount">
+                        <div class="loading-spinner"></div>
+                    </div>
+                    <div class="stat-label">Luxury Vehicles</div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">Active Bookings</div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-value">156</div>
+                    <div class="stat-label">Registered Customers</div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-rupee-sign"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-value">₹24.5L</div>
+                    <div class="stat-label">Monthly Revenue</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Graph Section -->
+        <div class="graph-section">
+            <div class="graph-card">
+                <div class="graph-header">
+                    <h3 class="graph-title">User Growth Analytics</h3>
+                    <div class="graph-filters">
+                        <button class="graph-filter active">Week</button>
+                        <button class="graph-filter">Month</button>
+                        <button class="graph-filter">Year</button>
+                    </div>
+                </div>
+                <div class="graph-container">
+                    <canvas id="userGrowthChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="graph-card locations-card">
+                <div class="graph-header">
+                    <h3 class="graph-title">Top Rental Locations</h3>
+                </div>
+                <div class="location-item">
+                    <div class="location-info">
+                        <div class="location-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="location-name">Mumbai</div>
+                    </div>
+                    <div class="location-value">32%</div>
+                </div>
+                <div class="location-item">
+                    <div class="location-info">
+                        <div class="location-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="location-name">Delhi</div>
+                    </div>
+                    <div class="location-value">28%</div>
+                </div>
+                <div class="location-item">
+                    <div class="location-info">
+                        <div class="location-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="location-name">Bangalore</div>
+                    </div>
+                    <div class="location-value">18%</div>
+                </div>
+                <div class="location-item">
+                    <div class="location-info">
+                        <div class="location-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="location-name">Hyderabad</div>
+                    </div>
+                    <div class="location-value">12%</div>
+                </div>
+                <div class="location-item">
+                    <div class="location-info">
+                        <div class="location-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="location-name">Chennai</div>
+                    </div>
+                    <div class="location-value">10%</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Rentals Section -->
+        <div class="recent-rentals">
+            <div class="section-header">
+                <h3 class="section-title">Recently Rented/Sold Vehicles</h3>
+                <a href="#" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="rental-table">
+                    <thead>
+                        <tr>
+                            <th>Vehicle</th>
+                            <th>Status</th>
+                            <th>Price</th>
+                            <th>Customer</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="vehicle-info">
+                                    <img src="https://stimg.cardekho.com/images/carexteriorimages/930x620/Lamborghini/Urus/8076/1632911780671/front-left-side-47.jpg" alt="Lamborghini Urus">
+                                    <span>Lamborghini Urus</span>
+                                </div>
+                            </td>
+                            <td><span class="status-badge rented">Rented</span></td>
+                            <td>₹75,000/day</td>
+                            <td>
+                                <div class="customer-info">
+                                    <i class="fas fa-user"></i>
+                                    Rahul Sharma
+                                </div>
+                            </td>
+                            <td>2 days ago</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn view-btn" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn edit-btn" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="vehicle-info">
+                                    <img src="https://stimg.cardekho.com/images/carexteriorimages/930x620/Ferrari/Roma/8533/1592546862354/front-left-side-47.jpg" alt="Ferrari Roma">
+                                    <span>Ferrari Roma</span>
+                                </div>
+                            </td>
+                            <td><span class="status-badge sold">Sold</span></td>
+                            <td>₹3.76 Cr</td>
+                            <td>
+                                <div class="customer-info">
+                                    <i class="fas fa-user"></i>
+                                    Priya Patel
+                                </div>
+                            </td>
+                            <td>5 days ago</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn view-btn" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn edit-btn" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="vehicle-info">
+                                    <img src="https://stimg.cardekho.com/images/carexteriorimages/930x620/Rolls-Royce/Phantom-VIII/8421/1633582433760/front-left-side-47.jpg" alt="Rolls Royce Phantom">
+                                    <span>Rolls Royce Phantom</span>
+                                </div>
+                            </td>
+                            <td><span class="status-badge rented">Rented</span></td>
+                            <td>₹1,50,000/day</td>
+                            <td>
+                                <div class="customer-info">
+                                    <i class="fas fa-user"></i>
+                                    Vikram Malhotra
+                                </div>
+                            </td>
+                            <td>1 week ago</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn view-btn" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn edit-btn" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="vehicle-info">
+                                    <img src="https://stimg.cardekho.com/images/carexteriorimages/930x620/Porsche/911/8822/1676971198270/front-left-side-47.jpg" alt="Porsche 911">
+                                    <span>Porsche 911</span>
+                                </div>
+                            </td>
+                            <td><span class="status-badge rented">Rented</span></td>
+                            <td>₹65,000/day</td>
+                            <td>
+                                <div class="customer-info">
+                                    <i class="fas fa-user"></i>
+                                    Arjun Kapoor
+                                </div>
+                            </td>
+                            <td>3 days ago</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn view-btn" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn edit-btn" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+   
+</body>
+</html> 

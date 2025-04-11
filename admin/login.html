@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Auto Luxury - Admin Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.3/dist/umd/supabase.min.js"></script>
+</head>
+<body>
+    <div class="login-wrapper">
+        <div class="login-container">
+            <!-- Left side - Login form -->
+            <div class="form-side">
+                <div class="logo">
+                    <i class="fas fa-car-side"></i>
+                    <span>ELITE AUTO</span>
+                </div>
+                
+                <h1>Admin Portal</h1>
+                <p class="subtitle">Sign in to manage your luxury fleet</p>
+                
+                <div class="tabs">
+                    <button class="tab active" data-target="login-content">Login</button>
+                    <button class="tab" data-target="register-content">Register</button>
+                </div>
+                
+                <div class="tab-content active" id="login-content">
+                    <form id="login-form">
+                        <div class="input-group">
+                            <label for="login-email">Email</label>
+                            <div class="input-field">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" id="login-email" name="email" placeholder="your@email.com" required>
+                            </div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="login-password">Password</label>
+                            <div class="input-field">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="login-password" name="password" placeholder="••••••••" required>
+                                <button type="button" class="toggle-password">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="options-row">
+                            <div class="remember-me">
+                                <input type="checkbox" id="remember-me">
+                                <label for="remember-me">Remember me</label>
+                            </div>
+                            <a href="#" class="forgot-link">Forgot password?</a>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-sign-in-alt"></i> Sign In
+                        </button>
+                        
+                        <div class="form-divider">
+                            <span>New to Elite Auto?</span>
+                        </div>
+                        
+                        <button type="button" class="register-btn" id="switchToRegister">
+                            Create an Account
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="tab-content" id="register-content">
+                    <form id="register-form">
+                        <div class="input-group">
+                            <label for="register-name">Full Name</label>
+                            <div class="input-field">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="register-name" name="name" placeholder="John Doe" required>
+                            </div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="register-email">Email</label>
+                            <div class="input-field">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" id="register-email" name="email" placeholder="your@email.com" required>
+                            </div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="register-password">Password</label>
+                            <div class="input-field">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="register-password" name="password" placeholder="••••••••" required>
+                                <button type="button" class="toggle-password">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="password-strength">
+                                <div class="strength-meter">
+                                    <div class="strength-bar"></div>
+                                </div>
+                                <span class="strength-text"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="confirm-password">Confirm Password</label>
+                            <div class="input-field">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="confirm-password" name="confirm-password" placeholder="••••••••" required>
+                            </div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="admin-code">Admin Code <i class="fas fa-info-circle tooltip-icon" title="Enter the admin registration code provided by the system administrator"></i></label>
+                            <div class="input-field">
+                                <i class="fas fa-shield-alt"></i>
+                                <input type="text" id="admin-code" name="admin-code" placeholder="Enter admin code" required>
+                            </div>
+                        </div>
+                        
+                        <div class="terms-check">
+                            <input type="checkbox" id="terms-checkbox" required>
+                            <label for="terms-checkbox">I agree to the <a href="#">Terms & Conditions</a></label>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn register-submit-btn">
+                            <i class="fas fa-user-plus"></i> Register Account
+                        </button>
+                        
+                        <div class="form-divider">
+                            <span>Already have an account?</span>
+                        </div>
+                        
+                        <button type="button" class="login-btn" id="switchToLogin">
+                            Sign In Instead
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="footer">
+                    <p>&copy; 2023 Elite Auto Luxury</p>
+                </div>
+            </div>
+            
+            <!-- Right side - Car Showcase -->
+            <div class="car-showcase">
+                <div class="car-slider">
+                    <div class="car-slide active" id="slide1">
+                        <div class="car-image" style="background-image: url('../images/ferrari.jpg')"></div>
+                        <div class="car-overlay"></div>
+                        <div class="car-info">
+                            <div class="car-badge">Featured</div>
+                            <h2>Ferrari SF90 Stradale</h2>
+                            <p>Experience the pinnacle of automotive engineering with 986 HP and 0-100 km/h in just 2.5 seconds.</p>
+                            <div class="car-specs">
+                                <div class="spec">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    <span>986 HP</span>
+                                </div>
+                                <div class="spec">
+                                    <i class="fas fa-bolt"></i>
+                                    <span>2.5s 0-100</span>
+                                </div>
+                            </div>
+                            <div class="car-price">₹1,50,000<span>/day</span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="car-slide" id="slide2">
+                        <div class="car-image" style="background-image: url('../images/lambo.jpg')"></div>
+                        <div class="car-overlay"></div>
+                        <div class="car-info">
+                            <div class="car-badge">Exclusive</div>
+                            <h2>Lamborghini Aventador</h2>
+                            <p>Unleash the power of the iconic V12 engine with aggressive styling and unmatched presence.</p>
+                            <div class="car-specs">
+                                <div class="spec">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    <span>770 HP</span>
+                                </div>
+                                <div class="spec">
+                                    <i class="fas fa-bolt"></i>
+                                    <span>2.8s 0-100</span>
+                                </div>
+                            </div>
+                            <div class="car-price">₹1,75,000<span>/day</span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="car-slide" id="slide3">
+                        <div class="car-image" style="background-image: url('../images/buggati.jpg')"></div>
+                        <div class="car-overlay"></div>
+                        <div class="car-info">
+                            <div class="car-badge">Ultra Luxury</div>
+                            <h2>Bugatti Chiron</h2>
+                            <p>The ultimate hypercar with 1500 HP from its quad-turbo W16 engine, redefining automotive excellence.</p>
+                            <div class="car-specs">
+                                <div class="spec">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    <span>1500 HP</span>
+                                </div>
+                                <div class="spec">
+                                    <i class="fas fa-bolt"></i>
+                                    <span>2.4s 0-100</span>
+                                </div>
+                            </div>
+                            <div class="car-price">₹2,00,000<span>/day</span></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slider-controls">
+                    <div class="slider-dots">
+                        <span class="dot active" data-slide="slide1"></span>
+                        <span class="dot" data-slide="slide2"></span>
+                        <span class="dot" data-slide="slide3"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast Container for Notifications -->
+    <div class="toast-container"></div>
+    
+    <script src="js/login.js"></script>
+</body>
+</html> 
