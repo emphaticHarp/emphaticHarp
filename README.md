@@ -56,7 +56,7 @@ const soumyajyoti = {
 <td width="92%">
 
 **Junior Software Developer** &nbsp;·&nbsp; Insyssky Softech Pvt Ltd
-Building and shipping software as part of a professional engineering team.
+
 
 ![Role](https://img.shields.io/badge/CURRENT_ROLE-00F7FF?style=flat-square&labelColor=0F2027)
 
