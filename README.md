@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=venom&color=0:0F2027,45:2C5364,100:00F7FF&height=260&section=header&text=SOUMYAJYOTI%20BANIK&fontSize=54&fontColor=ffffff&animation=twinkling&fontAlignY=36&stroke=00F7FF&strokeWidth=1&desc=Full-Stack%20Developer%20%C2%B7%20IoT%20Engineer%20%C2%B7%20Mobile%20App%20Developer&descAlignY=58&descSize=18" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=venom&color=0:0F2027,45:2C5364,100:00F7FF&height=270&section=header&text=SOUMYAJYOTI%20BANIK&fontSize=54&fontColor=ffffff&animation=twinkling&fontAlignY=36&stroke=00F7FF&strokeWidth=1&desc=Junior%20Software%20Developer%20%C2%B7%20IoT%20Engineer%20%C2%B7%20Mobile%20App%20Developer&descAlignY=58&descSize=18" width="100%"/>
 
-<img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=22&duration=3200&pause=900&color=00F7FF&center=true&vCenter=true&width=760&lines=%3E+Building+scalable+web+applications;%3E+Designing+smart+IoT+systems;%3E+Crafting+cross-platform+mobile+apps;%3E+Always+learning%2C+always+building" alt="Typing SVG" />
+<img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=600&size=22&duration=3200&pause=900&color=00F7FF&center=true&vCenter=true&width=780&lines=%3E+Junior+Software+Developer+%40+Insyssky+Softech;%3E+Building+scalable+web+applications;%3E+Designing+smart+IoT+systems;%3E+Crafting+cross-platform+mobile+apps;%3E+Always+learning%2C+always+building" alt="Typing SVG" />
 
 <br/>
 
@@ -14,10 +14,11 @@
 
 ![Profile Views](https://komarev.com/ghpvc/?username=emphaticHarp&style=for-the-badge&color=00F7FF&label=PROFILE+VIEWS&labelColor=0F2027)
 ![Followers](https://img.shields.io/github/followers/emphaticHarp?style=for-the-badge&color=00F7FF&labelColor=0F2027)
+![Status](https://img.shields.io/badge/STATUS-OPEN_TO_COLLABORATE-00F7FF?style=for-the-badge&labelColor=0F2027)
 
 </div>
 
-<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%" height="4px">
+<img src="https://capsule-render.vercel.app/api?type=rect&color=0:00F7FF,50:2C5364,100:0F2027&height=3" width="100%"/>
 
 ## 🧑‍💻 &nbsp;About Me
 
@@ -27,12 +28,12 @@
 
 ```ts
 const soumyajyoti = {
-  role:       "B.Tech CSE Student @ The ICFAI University, Tripura",
-  timeline:   "2023 — 2026",
+  role:       "Junior Software Developer @ Insyssky Softech Pvt Ltd",
+  education:  "B.Tech CSE @ The ICFAI University, Tripura (2023 — 2026)",
   focus:      ["Web Development", "IoT Systems", "Mobile Apps"],
   builds:     ["Web apps", "Embedded systems", "Android & Flutter apps"],
   philosophy: "Efficient, scalable, user-friendly — pick all three.",
-  status:     "Open to internships & research collaborations 🚀",
+  status:     "Open to collaborations & research 🚀",
 };
 ```
 
@@ -45,7 +46,34 @@ const soumyajyoti = {
 </tr>
 </table>
 
-<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%" height="4px">
+<img src="https://capsule-render.vercel.app/api?type=rect&color=0:00F7FF,50:2C5364,100:0F2027&height=3" width="100%"/>
+
+## 💼 &nbsp;Experience
+
+<table>
+<tr>
+<td width="8%" align="center">💻</td>
+<td width="92%">
+
+**Junior Software Developer** &nbsp;·&nbsp; Insyssky Softech Pvt Ltd
+Building and shipping software as part of a professional engineering team.
+
+![Role](https://img.shields.io/badge/CURRENT_ROLE-00F7FF?style=flat-square&labelColor=0F2027)
+
+</td>
+</tr>
+<tr>
+<td width="8%" align="center">📱</td>
+<td width="92%">
+
+**Internship Training, Android App Development** &nbsp;·&nbsp; NIELIT &nbsp;·&nbsp; *Jun 2024 – Aug 2024*
+Android Studio, XML, Java
+
+</td>
+</tr>
+</table>
+
+<img src="https://capsule-render.vercel.app/api?type=rect&color=0:00F7FF,50:2C5364,100:0F2027&height=3" width="100%"/>
 
 ## 🛠️ &nbsp;Tech Stack
 
@@ -85,7 +113,7 @@ mindmap
       Postman
 ```
 
-<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%" height="4px">
+<img src="https://capsule-render.vercel.app/api?type=rect&color=0:00F7FF,50:2C5364,100:0F2027&height=3" width="100%"/>
 
 ## 🌱 &nbsp;Currently Sharpening
 
@@ -99,7 +127,7 @@ mindmap
 
 </div>
 
-<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%" height="4px">
+<img src="https://capsule-render.vercel.app/api?type=rect&color=0:00F7FF,50:2C5364,100:0F2027&height=3" width="100%"/>
 
 ## 🏆 &nbsp;Featured Projects
 
@@ -183,41 +211,30 @@ Responsive restaurant platform with menu browsing, cart and table booking, desig
 </tr>
 </table>
 
-<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%" height="4px">
+<img src="https://capsule-render.vercel.app/api?type=rect&color=0:00F7FF,50:2C5364,100:0F2027&height=3" width="100%"/>
 
 ## 🎓 &nbsp;Journey
 
 ```mermaid
 timeline
-    title Education & Experience
+    title Education & Career
     2023 : Started B.Tech in CSE : The ICFAI University, Tripura
-    2024 : Internship Training in Android App Development : NIELIT (Jun – Aug)
-    2026 : B.Tech completion : Web · IoT · Android
+    2024 : Android App Development Internship : NIELIT (Jun – Aug)
+    Now : Junior Software Developer : Insyssky Softech Pvt Ltd
 ```
 
-**🎓 B.Tech in Computer Science & Engineering** — The ICFAI University, Tripura · *2023 – 2026*
-**📱 Internship Training, Android App Development** — NIELIT · *Jun 2024 – Aug 2024* · Android Studio, XML, Java
+**🎓 B.Tech in Computer Science & Engineering** — The ICFAI University, Tripura · *2023 – 2026* · Web Development, IoT, Android Development
 
-<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%" height="4px">
+<img src="https://capsule-render.vercel.app/api?type=rect&color=0:00F7FF,50:2C5364,100:0F2027&height=3" width="100%"/>
 
 ## 🏅 &nbsp;Achievements
 
+- 💼 **Junior Software Developer** at Insyssky Softech Pvt Ltd
 - 🥇 **Technovate** (ICFAI University, Tripura): participated in the web development competition with the AI Assistant (Next.js + Gemini API)
 - 🌾 **Smart Irrigation System**: sustainable IoT-based water management solution
 - 🏗️ Multiple IoT and web projects completed, from ESP32-CAM robots to full-stack platforms
 
-<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%" height="4px">
-
-## 🧊 &nbsp;My Contributions in 3D
-
-<div align="center">
-
-<!-- Generated daily by .github/workflows/profile-3d.yml -->
-<img src="./profile-3d-contrib/profile-night-rainbow.svg" width="100%" alt="3D contribution graph"/>
-
-</div>
-
-<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%" height="4px">
+<img src="https://capsule-render.vercel.app/api?type=rect&color=0:00F7FF,50:2C5364,100:0F2027&height=3" width="100%"/>
 
 ## 📊 &nbsp;GitHub Analytics
 
@@ -232,7 +249,7 @@ timeline
 
 </div>
 
-<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%" height="4px">
+<img src="https://capsule-render.vercel.app/api?type=rect&color=0:00F7FF,50:2C5364,100:0F2027&height=3" width="100%"/>
 
 ## 💡 &nbsp;Interests
 
@@ -242,13 +259,13 @@ timeline
 
 </div>
 
-<img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.gif" width="100%" height="4px">
+<img src="https://capsule-render.vercel.app/api?type=rect&color=0:00F7FF,50:2C5364,100:0F2027&height=3" width="100%"/>
 
 ## 📫 &nbsp;Let's Connect
 
 <div align="center">
 
-Open to web development projects, IoT & smart systems, Android/Flutter apps, open source, research opportunities and internships.
+Open to web development projects, IoT & smart systems, Android/Flutter apps, open source and research opportunities.
 
 <a href="https://www.linkedin.com/in/soumyajyoti-banik-b9a345313"><img src="https://img.shields.io/badge/Let's%20Connect-LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white"/></a>
 <a href="mailto:soumyajyotibanik07@gmail.com"><img src="https://img.shields.io/badge/Say%20Hi-Email-EA4335?style=for-the-badge&logo=gmail&logoColor=white"/></a>
@@ -258,3 +275,43 @@ Open to web development projects, IoT & smart systems, Android/Flutter apps, ope
 </div>
 
 <img src="https://capsule-render.vercel.app/api?type=venom&color=0:00F7FF,55:2C5364,100:0F2027&height=140&section=footer" width="100%"/>
+
+<!--
+=====================================================================
+OPTIONAL: TRUE ISOMETRIC 3D CONTRIBUTION GRAPH
+=====================================================================
+1. Create the file  .github/workflows/profile-3d.yml  with this content:
+
+name: GitHub-Profile-3D-Contrib
+on:
+  schedule:
+    - cron: "0 18 * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: yoshi389111/github-profile-3d-contrib@0.7.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USERNAME: emphaticHarp
+      - name: Commit & push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A .
+          git commit -m "chore: update 3D contribution graph" || exit 0
+          git push
+
+2. Run it once from the Actions tab ("Run workflow").
+3. Then add this section anywhere above in the README:
+
+## 🧊 My Contributions in 3D
+<div align="center">
+<img src="./profile-3d-contrib/profile-night-rainbow.svg" width="100%" alt="3D contribution graph"/>
+</div>
+=====================================================================
+-->
